@@ -1,0 +1,346 @@
+/* src/App.css */
+
+.app {
+  min-height: 100vh;
+  background: #121212;
+  color: white;
+}
+
+/* =========================
+   COMMON BUTTONS
+========================= */
+
+.custom-btn {
+  padding: 12px 22px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #ff4d4d;
+  color: white;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition: 0.3s ease;
+}
+
+.custom-btn:hover {
+  background: #ff1f1f;
+}
+
+.custom-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+
+  background: #1e1e1e;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  padding: 30px 20px;
+
+  border-right: 1px solid #333;
+}
+
+.sidebar-logo {
+  margin-bottom: 40px;
+}
+
+.sidebar-logo h2 {
+  color: #ff4d4d;
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sidebar-link {
+  padding: 12px 15px;
+
+  border-radius: 8px;
+
+  transition: 0.3s ease;
+}
+
+.sidebar-link:hover {
+  background: #333;
+}
+
+.active-sidebar {
+  background: #ff4d4d;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+  background: #1b1b1b;
+  margin-top: 50px;
+  padding-top: 40px;
+}
+
+.footer-container {
+  width: 90%;
+  max-width: 1200px;
+
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  );
+
+  gap: 30px;
+}
+
+.footer h2,
+.footer h3 {
+  margin-bottom: 15px;
+}
+
+.footer p,
+.footer li {
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+.footer-bottom {
+  margin-top: 30px;
+
+  padding: 20px;
+  text-align: center;
+
+  border-top: 1px solid #333;
+
+  color: #aaa;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.7);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+}
+
+.modal-container {
+  width: 90%;
+  max-width: 500px;
+
+  background: #1f1f1f;
+
+  border-radius: 12px;
+
+  padding: 25px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+
+  color: white;
+
+  font-size: 24px;
+}
+
+.modal-content {
+  color: #ddd;
+}
+
+/* =========================
+   LOADER
+========================= */
+
+.loader-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+}
+
+.loader {
+  border: 6px solid #333;
+  border-top: 6px solid #ff4d4d;
+
+  border-radius: 50%;
+
+  animation: spin 1s linear infinite;
+}
+
+.loader-text {
+  margin-top: 15px;
+  color: #ccc;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+   STOCK ALERT
+========================= */
+
+.stock-alert {
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.success-alert {
+  background: #14532d;
+}
+
+.danger-alert {
+  background: #7f1d1d;
+}
+
+.alert-items {
+  margin-top: 20px;
+
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(220px, 1fr)
+  );
+
+  gap: 20px;
+}
+
+.alert-card {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* =========================
+   INVENTORY ACTIONS
+========================= */
+
+.inventory-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  border: none;
+  padding: 8px 14px;
+
+  border-radius: 6px;
+
+  color: white;
+}
+
+.edit-btn {
+  background: #2563eb;
+}
+
+.delete-btn {
+  background: #dc2626;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.stock-low,
+.payment-pending {
+  color: #facc15;
+  font-weight: bold;
+}
+
+.stock-good,
+.payment-success {
+  color: #4ade80;
+  font-weight: bold;
+}
+
+.status-select {
+  width: 100%;
+  padding: 10px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #2c2c2c;
+  color: white;
+}
+
+/* =========================
+   EMPTY BOX
+========================= */
+
+.empty-box {
+  background: #1f1f1f;
+  padding: 40px;
+
+  border-radius: 12px;
+
+  text-align: center;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+
+    position: relative;
+
+    border-right: none;
+    border-bottom: 1px solid #333;
+  }
+
+  .sidebar-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .footer-container {
+    text-align: center;
+  }
+
+  .inventory-actions {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,334 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'DM Sans', sans-serif;
+  background: #0b0b0b;
+}
+
+/* MAIN PAGE */
+.raw-stock-container {
+  min-height: 100vh;
+  padding: 35px 25px;
+  position: relative;
+
+  background:
+    radial-gradient(circle at top left, rgba(255, 77, 45, 0.15), transparent 40%),
+    radial-gradient(circle at bottom right, rgba(255, 140, 0, 0.12), transparent 35%),
+    #0b0b0b;
+}
+
+/* TITLE */
+.raw-stock-container h2 {
+  text-align: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 25px;
+}
+
+.raw-stock-container h2::after {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 3px;
+  margin: 10px auto 0;
+  background: linear-gradient(135deg, #ff4d2d, #ff8c00);
+  border-radius: 10px;
+}
+
+/* FORM CARD (GLASS STYLE) */
+.raw-form {
+  max-width: 900px;
+  margin: 0 auto 30px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+
+  padding: 25px;
+  border-radius: 22px;
+
+  background: rgba(18, 18, 18, 0.92);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* INPUTS */
+.raw-form input {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.raw-form input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.raw-form input:focus {
+  border: 1px solid rgba(255, 77, 45, 0.4);
+  box-shadow: 0 0 0 4px rgba(255, 77, 45, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* BUTTON */
+.raw-form button {
+  grid-column: span 4;
+  padding: 15px;
+  border: none;
+  border-radius: 18px;
+
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #ff4d2d, #ff8c00);
+
+  box-shadow: 0 16px 35px rgba(255, 77, 45, 0.25);
+
+  transition: 0.35s;
+}
+
+.raw-form button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 45px rgba(255, 77, 45, 0.38);
+}
+
+/* LIST GRID */
+.raw-list {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+/* CARD (GLASS STYLE) */
+.raw-card {
+  padding: 18px;
+  border-radius: 20px;
+
+  background: rgba(18, 18, 18, 0.92);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+
+  transition: 0.3s;
+}
+
+.raw-card:hover {
+  transform: translateY(-6px);
+}
+
+/* CARD TEXT */
+.raw-card h3 {
+  font-family: 'Syne', sans-serif;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.raw-card p {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 6px 0;
+}
+
+/* LOW STOCK WARNING */
+.low-stock {
+  margin-top: 10px;
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 10px;
+
+  font-weight: 700;
+  font-size: 12px;
+
+  color: #ff4d2d;
+
+  background: rgba(255, 77, 45, 0.12);
+  border: 1px solid rgba(255, 77, 45, 0.25);
+}
+
+/* LOADING TEXT */
+.raw-list p {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .raw-form {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .raw-form button {
+    grid-column: span 1;
+  }
+
+  .raw-stock-container h2 {
+    font-size: 26px;
+  }
+}
+.raw-table-wrapper {
+  max-width: 1000px;
+  margin: 20px auto;
+  background: rgba(18, 18, 18, 0.92);
+  backdrop-filter: blur(18px);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.65);
+}
+
+.raw-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+  font-family: "DM Sans", sans-serif;
+}
+
+.raw-table th {
+  text-align: left;
+  padding: 14px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.raw-table td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 14px;
+}
+
+.raw-table tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+  transition: 0.3s;
+}
+
+/* STATUS BADGES */
+.low {
+  background: rgba(255, 77, 45, 0.15);
+  color: #ff4d2d;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ok {
+  background: rgba(0, 255, 120, 0.12);
+  color: #00ff78;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.loading {
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+/* =========================
+   STOCK + / - BUTTONS
+========================= */
+
+.stock-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.stock-controls button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: #ff4d2d;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stock-controls button:hover {
+  background: #e63d1f;
+  transform: scale(1.05);
+}
+
+.stock-controls button:active {
+  transform: scale(0.95);
+}
+
+/* stock number */
+.stock-controls span {
+  font-weight: 600;
+  min-width: 30px;
+  text-align: center;
+}
+
+/* =========================
+   DELETE BUTTON
+========================= */
+
+.raw-table td button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background: #ff1f1f;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.raw-table td button:hover {
+  background: #d90000;
+  transform: scale(1.05);
+}
+
+.raw-table td button:active {
+  transform: scale(0.95);
+}
+.threshold-input {
+    width: 80px;
+    padding: 6px 8px;
+    text-align: center;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+    background: #fff;
+}
+
+.threshold-input:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.15);
+}

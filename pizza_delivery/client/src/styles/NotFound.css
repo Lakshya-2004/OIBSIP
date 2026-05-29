@@ -1,0 +1,262 @@
+
+          @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+          *{
+            box-sizing:border-box;
+          }
+
+          .notfound-page{
+            min-height:100vh;
+            background:
+              radial-gradient(circle at top left, rgba(255,77,45,0.18), transparent 35%),
+              radial-gradient(circle at bottom right, rgba(255,140,0,0.12), transparent 30%),
+              #0b0b0b;
+            overflow:hidden;
+            position:relative;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+            font-family:'DM Sans',sans-serif;
+          }
+
+          /* floating pizza images */
+          .floating{
+            position:absolute;
+            opacity:0.18;
+            filter:blur(1px);
+            animation:float 7s ease-in-out infinite;
+            user-select:none;
+            pointer-events:none;
+          }
+
+          .pizza1{
+            top:8%;
+            left:6%;
+            font-size:90px;
+            animation-delay:0s;
+          }
+
+          .pizza2{
+            top:18%;
+            right:8%;
+            font-size:120px;
+            animation-delay:1s;
+          }
+
+          .pizza3{
+            bottom:10%;
+            left:10%;
+            font-size:110px;
+            animation-delay:2s;
+          }
+
+          .pizza4{
+            bottom:5%;
+            right:12%;
+            font-size:85px;
+            animation-delay:3s;
+          }
+
+          .pizza5{
+            top:45%;
+            left:-20px;
+            font-size:70px;
+            animation-delay:4s;
+          }
+
+          .pizza6{
+            top:50%;
+            right:-15px;
+            font-size:70px;
+            animation-delay:5s;
+          }
+
+          @keyframes float{
+            0%{
+              transform:translateY(0px) rotate(0deg);
+            }
+            50%{
+              transform:translateY(-18px) rotate(8deg);
+            }
+            100%{
+              transform:translateY(0px) rotate(0deg);
+            }
+          }
+
+          .notfound-card{
+            width:100%;
+            max-width:560px;
+            position:relative;
+            z-index:10;
+            background:rgba(20,20,20,0.92);
+            border:1px solid rgba(255,255,255,0.08);
+            backdrop-filter:blur(18px);
+            border-radius:30px;
+            padding:55px 40px;
+            text-align:center;
+            overflow:hidden;
+            box-shadow:
+              0 25px 80px rgba(0,0,0,0.6),
+              inset 0 1px 0 rgba(255,255,255,0.04);
+          }
+
+          .glow{
+            position:absolute;
+            width:220px;
+            height:220px;
+            background:rgba(255,77,45,0.18);
+            border-radius:50%;
+            filter:blur(80px);
+            z-index:-1;
+          }
+
+          .glow1{
+            top:-60px;
+            left:-40px;
+          }
+
+          .glow2{
+            bottom:-80px;
+            right:-40px;
+            background:rgba(255,140,0,0.12);
+          }
+
+          .emoji{
+            font-size:75px;
+            margin-bottom:10px;
+            animation:bounce 2.5s infinite;
+            display:inline-block;
+            filter:drop-shadow(0 10px 20px rgba(255,77,45,0.25));
+          }
+
+          @keyframes bounce{
+            0%,100%{
+              transform:translateY(0);
+            }
+            50%{
+              transform:translateY(-10px);
+            }
+          }
+
+          .code{
+            margin:0;
+            font-size:120px;
+            line-height:1;
+            font-family:'Syne',sans-serif;
+            font-weight:800;
+            background:linear-gradient(135deg,#ff4d2d,#ff8c00);
+            background-clip: text;
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            letter-spacing:-4px;
+          }
+
+          .title{
+            margin-top:8px;
+            margin-bottom:14px;
+            font-size:32px;
+            font-weight:700;
+            color:#fff;
+          }
+
+          .text{
+            color:rgba(255,255,255,0.55);
+            font-size:15px;
+            line-height:1.8;
+            max-width:420px;
+            margin:0 auto 32px;
+          }
+
+          .button-group{
+            display:flex;
+            justify-content:center;
+            gap:14px;
+            flex-wrap:wrap;
+          }
+
+          .home-btn{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
+            padding:14px 24px;
+            border-radius:14px;
+            text-decoration:none;
+            background:linear-gradient(135deg,#ff4d2d,#ff8c00);
+            color:#fff;
+            font-weight:700;
+            font-size:14px;
+            transition:0.35s;
+            box-shadow:0 10px 25px rgba(255,77,45,0.3);
+          }
+
+          .home-btn:hover{
+            transform:translateY(-4px) scale(1.02);
+            box-shadow:0 18px 35px rgba(255,77,45,0.4);
+          }
+
+          .secondary-btn{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
+            padding:14px 22px;
+            border-radius:14px;
+            text-decoration:none;
+            background:rgba(255,255,255,0.05);
+            border:1px solid rgba(255,255,255,0.08);
+            color:rgba(255,255,255,0.75);
+            font-weight:600;
+            font-size:14px;
+            transition:0.35s;
+          }
+
+          .secondary-btn:hover{
+            background:rgba(255,255,255,0.08);
+            transform:translateY(-3px);
+            color:#fff;
+          }
+
+          .mini-text{
+            margin-top:28px;
+            color:rgba(255,255,255,0.28);
+            font-size:12px;
+            letter-spacing:1px;
+            text-transform:uppercase;
+          }
+
+          @media(max-width:768px){
+
+            .notfound-card{
+              padding:45px 24px;
+              border-radius:24px;
+            }
+
+            .code{
+              font-size:90px;
+            }
+
+            .title{
+              font-size:26px;
+            }
+
+            .emoji{
+              font-size:60px;
+            }
+
+            .text{
+              font-size:14px;
+            }
+
+            .pizza1,
+            .pizza2,
+            .pizza3,
+            .pizza4,
+            .pizza5,
+            .pizza6{
+              font-size:60px;
+              opacity:0.12;
+            }
+          }
+        

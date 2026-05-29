@@ -1,0 +1,39 @@
+.stock-alert {
+  margin-bottom: 24px;
+  padding: 20px;
+  border-radius: 18px;
+}
+
+.success-alert {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.danger-alert {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fff;
+}
+
+.alert-items {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(220px, 1fr)
+  );
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.alert-card {
+  background: rgba(255,255,255,0.04);
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.alert-card h3 {
+  margin-bottom: 10px;
+  color: #ff4d2d;
+}

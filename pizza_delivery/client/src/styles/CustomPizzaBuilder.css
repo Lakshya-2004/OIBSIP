@@ -1,0 +1,89 @@
+.builder-section{
+  margin-bottom: 30px;
+}
+
+.builder-section h2{
+  color: #fff;
+  margin-bottom: 18px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.options-grid{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.option-btn,
+.selected-option{
+  min-width: 160px;
+  height: 54px;
+  padding: 0 22px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.option-btn{
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.75);
+}
+
+.option-btn:hover{
+  transform: translateY(-3px);
+  border: 1px solid rgba(255,77,45,0.35);
+  background: rgba(255,77,45,0.08);
+  color: #fff;
+}
+
+.selected-option{
+  background: linear-gradient(135deg,#ff4d2d,#ff8c00);
+  color: #fff;
+  border: 1px solid transparent;
+  box-shadow: 0 10px 25px rgba(255,77,45,0.35);
+}
+
+.selected-option:hover{
+  transform: translateY(-3px);
+}
+
+.quantity-box{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.quantity-box button{
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg,#ff4d2d,#ff8c00);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.quantity-box button:hover{
+  transform: scale(1.06);
+}
+
+.quantity-box span{
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  min-width: 30px;
+  text-align: center;
+}
