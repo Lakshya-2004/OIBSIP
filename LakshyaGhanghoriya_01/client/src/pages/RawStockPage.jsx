@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/RawStockPage.css";
 import { io } from "socket.io-client";
 
 const API = "/api/raw-material";
+const FONT = "'DM Sans', sans-serif";
 
 function RawStockPage() {
   const [items, setItems] = useState([]);
@@ -28,9 +28,7 @@ function RawStockPage() {
     });
 
     socket.on("lowStock", (item) => {
-      alert(
-        `⚠ LOW STOCK ALERT\n\n${item.name} stock is only ${item.stock}`
-      );
+      alert(`⚠ LOW STOCK ALERT\n\n${item.name} stock is only ${item.stock}`);
     });
 
     socket.on("disconnect", () => {
@@ -49,16 +47,11 @@ function RawStockPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
-
       const res = await axios.get(API);
-
       setItems(res.data?.items || []);
-
     } catch (error) {
       console.log("Fetch error:", error);
-
       setItems([]);
-
     } finally {
       setLoading(false);
     }
@@ -74,12 +67,10 @@ function RawStockPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setForm((prev) => ({
       ...prev,
       [name]:
-        name === "stock" ||
-        name === "threshold"
+        name === "stock" || name === "threshold"
           ? Number(value)
           : value,
     }));
@@ -96,6 +87,17 @@ function RawStockPage() {
         return;
       }
 
+      const duplicate = items.find(
+        (item) =>
+          item.name.trim().toLowerCase() ===
+          form.name.trim().toLowerCase()
+      );
+
+      if (duplicate) {
+        alert(`"${duplicate.name}" already exists in stock.`);
+        return;
+      }
+
       await axios.post(API, {
         name: form.name,
         stock: form.stock,
@@ -103,21 +105,10 @@ function RawStockPage() {
         threshold: form.threshold,
       });
 
-      setForm({
-        name: "",
-        stock: 0,
-        unit: "kg",
-        threshold: 5,
-      });
-
+      setForm({ name: "", stock: 0, unit: "kg", threshold: 5 });
       fetchData();
-
     } catch (error) {
-      console.log(
-        "Add item error:",
-        error?.response?.data || error
-      );
-
+      console.log("Add item error:", error?.response?.data || error);
       alert("Failed to add item");
     }
   };
@@ -126,24 +117,12 @@ function RawStockPage() {
      UPDATE STOCK
   ========================= */
 
-  const updateStock = async (
-    item,
-    change
-  ) => {
+  const updateStock = async (item, change) => {
     try {
-      await axios.patch(
-        `${API}/${item._id}/stock`,
-        { change }
-      );
-
+      await axios.patch(`${API}/${item._id}/stock`, { change });
       fetchData();
-
     } catch (error) {
-      console.log(
-        "Stock update error:",
-        error
-      );
-
+      console.log("Stock update error:", error);
       alert("Failed to update stock");
     }
   };
@@ -152,28 +131,14 @@ function RawStockPage() {
      UPDATE THRESHOLD
   ========================= */
 
-  const updateThreshold = async (
-    item,
-    newThreshold
-  ) => {
+  const updateThreshold = async (item, newThreshold) => {
     try {
-      await axios.put(
-        `${API}/${item._id}`,
-        {
-          threshold: Number(
-            newThreshold
-          ),
-        }
-      );
-
+      await axios.put(`${API}/${item._id}`, {
+        threshold: Number(newThreshold),
+      });
       fetchData();
-
     } catch (error) {
-      console.log(
-        "Threshold update error:",
-        error
-      );
-
+      console.log("Threshold update error:", error);
       alert("Failed to update threshold");
     }
   };
@@ -183,28 +148,182 @@ function RawStockPage() {
   ========================= */
 
   const deleteItem = async (id) => {
-    const confirmDelete =
-      window.confirm(
-        "Delete this item?"
-      );
-
+    const confirmDelete = window.confirm("Delete this item?");
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(
-        `${API}/${id}`
-      );
-
+      await axios.delete(`${API}/${id}`);
       fetchData();
-
     } catch (error) {
-      console.log(
-        "Delete error:",
-        error
-      );
-
+      console.log("Delete error:", error);
       alert("Failed to delete item");
     }
+  };
+
+  /* =========================
+     STYLES
+  ========================= */
+
+  const styles = {
+    page: {
+      minHeight: "100vh",
+      padding: "40px 20px",
+      background: "linear-gradient(135deg,#0b0b0b,#171717)",
+      color: "#fff",
+      fontFamily: FONT,
+    },
+
+    container: {
+      maxWidth: "1400px",
+      margin: "0 auto",
+    },
+
+    title: {
+      fontSize: "42px",
+      fontWeight: "800",
+      marginBottom: "10px",
+    },
+
+    subtitle: {
+      color: "rgba(255,255,255,0.6)",
+      marginBottom: "35px",
+      lineHeight: "1.6",
+    },
+
+    grid: {
+      display: "grid",
+      gridTemplateColumns: "380px 1fr",
+      gap: "28px",
+      alignItems: "start",
+    },
+
+    card: {
+      background: "rgba(255,255,255,0.04)",
+      border: "1px solid rgba(255,255,255,0.08)",
+      borderRadius: "24px",
+      padding: "24px",
+      backdropFilter: "blur(12px)",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+    },
+
+    sectionTitle: {
+      fontSize: "24px",
+      fontWeight: "700",
+      marginBottom: "20px",
+    },
+
+    input: {
+      width: "100%",
+      padding: "14px 16px",
+      borderRadius: "14px",
+      border: "1px solid rgba(255,255,255,0.08)",
+      background: "rgba(255,255,255,0.05)",
+      color: "#fff",
+      outline: "none",
+      marginBottom: "16px",
+      fontSize: "14px",
+      boxSizing: "border-box",
+    },
+
+    button: {
+      width: "100%",
+      padding: "14px",
+      border: "none",
+      borderRadius: "14px",
+      background: "linear-gradient(135deg,#ff4d2d,#ff8c00)",
+      color: "#fff",
+      fontWeight: "700",
+      cursor: "pointer",
+      fontSize: "15px",
+      transition: "0.3s",
+      marginTop: "4px",
+    },
+
+    table: {
+      width: "100%",
+      borderCollapse: "collapse",
+    },
+
+    th: {
+      textAlign: "left",
+      padding: "16px",
+      color: "rgba(255,255,255,0.5)",
+      borderBottom: "1px solid rgba(255,255,255,0.08)",
+      fontSize: "13px",
+    },
+
+    td: {
+      padding: "16px",
+      borderBottom: "1px solid rgba(255,255,255,0.05)",
+      fontSize: "14px",
+      verticalAlign: "middle",
+    },
+
+    actionBtn: {
+      padding: "9px 14px",
+      borderRadius: "10px",
+      border: "none",
+      cursor: "pointer",
+      color: "#fff",
+      fontWeight: "600",
+      marginRight: "8px",
+    },
+
+    qtyBtn: {
+      width: "30px",
+      height: "30px",
+      borderRadius: "8px",
+      border: "1px solid rgba(255,255,255,0.12)",
+      background: "rgba(255,255,255,0.07)",
+      color: "#fff",
+      fontSize: "16px",
+      fontWeight: "700",
+      cursor: "pointer",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      lineHeight: 1,
+    },
+
+    thresholdInput: {
+      width: "72px",
+      padding: "8px 10px",
+      borderRadius: "10px",
+      border: "1px solid rgba(255,255,255,0.08)",
+      background: "rgba(255,255,255,0.05)",
+      color: "#fff",
+      outline: "none",
+      fontSize: "13px",
+      textAlign: "center",
+      boxSizing: "border-box",
+    },
+  };
+
+  const getStatusBadge = (stock, threshold) => {
+    const isLow = stock <= threshold;
+    return (
+      <span
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "4px",
+          background: isLow
+            ? "rgba(239,68,68,0.12)"
+            : "rgba(34,197,94,0.12)",
+          color: isLow ? "#f87171" : "#4ade80",
+          border: isLow
+            ? "1px solid rgba(239,68,68,0.25)"
+            : "1px solid rgba(34,197,94,0.25)",
+          borderRadius: "20px",
+          padding: "4px 10px",
+          fontSize: "12px",
+          fontWeight: "500",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {isLow ? "⚠ Low" : "✅ OK"}
+      </span>
+    );
   };
 
   /* =========================
@@ -212,170 +331,209 @@ function RawStockPage() {
   ========================= */
 
   return (
-    <div className="raw-stock-container">
-      <h2>🧺 Raw Material Stock</h2>
+    <div style={styles.page}>
+      <div style={styles.container}>
+        <h1 style={styles.title}>🧺 Raw Material Stock</h1>
 
-      {/* FORM */}
+        <p style={styles.subtitle}>
+          Manage raw materials, update stock levels, set thresholds and get
+          alerts when inventory runs low.
+        </p>
 
-      <div className="raw-form">
-        <input
-          type="text"
-          name="name"
-          placeholder="Item Name"
-          value={form.name}
-          onChange={handleChange}
-        />
+        <div style={styles.grid}>
+          {/* LEFT — FORM */}
+          <div style={{ ...styles.card, position: "sticky", top: "40px" }}>
+            <h2 style={styles.sectionTitle}>➕ Add Item</h2>
 
-        <input
-          type="number"
-          name="stock"
-          placeholder="Stock"
-          value={form.stock}
-          onChange={handleChange}
-        />
+            <input
+              type="text"
+              name="name"
+              placeholder="Item Name"
+              value={form.name}
+              onChange={handleChange}
+              style={styles.input}
+            />
 
-        <input
-          type="text"
-          name="unit"
-          placeholder="Unit (kg, L, pcs)"
-          value={form.unit}
-          onChange={handleChange}
-        />
+            <input
+              type="number"
+              name="stock"
+              placeholder="Stock"
+              value={form.stock}
+              onChange={handleChange}
+              style={styles.input}
+            />
 
-        <input
-          type="number"
-          name="threshold"
-          placeholder="Threshold"
-          value={form.threshold}
-          onChange={handleChange}
-        />
+            <input
+              type="text"
+              name="unit"
+              placeholder="Unit (kg, L, pcs)"
+              value={form.unit}
+              onChange={handleChange}
+              style={styles.input}
+            />
 
-        <button onClick={addItem}>
-          ➕ Add Item
-        </button>
-      </div>
+            <input
+              type="number"
+              name="threshold"
+              placeholder="Threshold"
+              value={form.threshold}
+              onChange={handleChange}
+              style={styles.input}
+            />
 
-      {/* TABLE */}
+            <button style={styles.button} onClick={addItem}>
+              ➕ Add Item
+            </button>
+          </div>
 
-      <div className="raw-table-wrapper">
-        {loading ? (
-          <p className="loading">
-            Loading stock...
-          </p>
-        ) : items.length === 0 ? (
-          <p className="loading">
-            No raw materials found.
-          </p>
-        ) : (
-          <table className="raw-table">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Unit</th>
-                <th>Threshold</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
+          {/* RIGHT — TABLE */}
+          <div style={styles.card}>
+            {/* HEADER */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "20px",
+                flexWrap: "wrap",
+                gap: "12px",
+              }}
+            >
+              <h2 style={{ margin: 0, fontSize: "24px", fontWeight: "700" }}>
+                🧺 Raw Material Stock
+              </h2>
+              <span style={{ color: "rgba(255,255,255,0.5)" }}>
+                {items.length} Items
+              </span>
+            </div>
 
-            <tbody>
-              {items.map((item) => (
-                <tr key={item._id}>
-                  {/* NAME */}
+            {/* TABLE */}
+            {loading ? (
+              <p
+                style={{
+                  textAlign: "center",
+                  padding: "40px 0",
+                  opacity: 0.5,
+                }}
+              >
+                Loading stock...
+              </p>
+            ) : items.length === 0 ? (
+              <p
+                style={{
+                  textAlign: "center",
+                  padding: "40px 0",
+                  opacity: 0.5,
+                }}
+              >
+                No raw materials found.
+              </p>
+            ) : (
+              <div style={{ overflowX: "auto" }}>
+                <table style={styles.table}>
+                  <thead>
+                    <tr>
+                      <th style={styles.th}>Item</th>
+                      <th style={styles.th}>Quantity</th>
+                      <th style={styles.th}>Unit</th>
+                      <th style={styles.th}>Threshold</th>
+                      <th style={styles.th}>Status</th>
+                      <th style={styles.th}>Actions</th>
+                    </tr>
+                  </thead>
 
-                  <td>{item.name}</td>
-
-                  {/* STOCK */}
-
-                  <td>
-                    <div className="stock-controls">
-                      <button
-                        className="qty-btn"
-                        onClick={() =>
-                          updateStock(
-                            item,
-                            -1
-                          )
-                        }
+                  <tbody>
+                    {items.map((item) => (
+                      <tr
+                        key={item._id}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(255,255,255,0.03)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = "transparent";
+                        }}
+                        style={{ transition: "0.3s" }}
                       >
-                        -
-                      </button>
+                        {/* NAME */}
+                        <td style={styles.td}>{item.name}</td>
 
-                      <span>
-                        {item.stock}
-                      </span>
+                        {/* STOCK CONTROLS */}
+                        <td style={styles.td}>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "10px",
+                            }}
+                          >
+                            <button
+                              style={styles.qtyBtn}
+                              onClick={() => updateStock(item, -1)}
+                            >
+                              −
+                            </button>
 
-                      <button
-                        className="qty-btn"
-                        onClick={() =>
-                          updateStock(
-                            item,
-                            1
-                          )
-                        }
-                      >
-                        +
-                      </button>
-                    </div>
-                  </td>
+                            <span
+                              style={{
+                                fontWeight: "700",
+                                color: "#22c55e",
+                                minWidth: "32px",
+                                textAlign: "center",
+                              }}
+                            >
+                              {item.stock}
+                            </span>
 
-                  {/* UNIT */}
+                            <button
+                              style={styles.qtyBtn}
+                              onClick={() => updateStock(item, 1)}
+                            >
+                              +
+                            </button>
+                          </div>
+                        </td>
 
-                  <td>{item.unit}</td>
+                        {/* UNIT */}
+                        <td style={styles.td}>{item.unit}</td>
 
-                  {/* THRESHOLD */}
+                        {/* THRESHOLD */}
+                        <td style={styles.td}>
+                          <input
+                            style={styles.thresholdInput}
+                            type="number"
+                            defaultValue={item.threshold}
+                            onBlur={(e) =>
+                              updateThreshold(item, e.target.value)
+                            }
+                          />
+                        </td>
 
-                  <td>
-                    <input
-                      className="threshold-input"
-                      type="number"
-                      defaultValue={
-                        item.threshold
-                      }
-                      onBlur={(e) =>
-                        updateThreshold(
-                          item,
-                          e.target.value
-                        )
-                      }
-                    />
-                  </td>
+                        {/* STATUS */}
+                        <td style={styles.td}>
+                          {getStatusBadge(item.stock, item.threshold)}
+                        </td>
 
-                  {/* STATUS */}
-
-                  <td>
-                    {item.stock <=
-                    item.threshold ? (
-                      <span className="low">
-                        ⚠ Low
-                      </span>
-                    ) : (
-                      <span className="ok">
-                        ✅ OK
-                      </span>
-                    )}
-                  </td>
-
-                  {/* DELETE */}
-
-                  <td>
-                    <button
-                      className="delete-btn"
-                      onClick={() =>
-                        deleteItem(
-                          item._id
-                        )
-                      }
-                    >
-                      🗑 Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+                        {/* DELETE */}
+                        <td style={styles.td}>
+                          <button
+                            style={{
+                              ...styles.actionBtn,
+                              background: "#ef4444",
+                            }}
+                            onClick={() => deleteItem(item._id)}
+                          >
+                            🗑 Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

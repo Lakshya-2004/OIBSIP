@@ -1,334 +1,322 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+/* ===========================
+   ROOT & RESET
+=========================== */
 
 * {
   box-sizing: border-box;
-}
-
-body {
   margin: 0;
   padding: 0;
-  font-family: 'DM Sans', sans-serif;
-  background: #0b0b0b;
 }
 
-/* MAIN PAGE */
+/* ===========================
+   CONTAINER
+=========================== */
+
 .raw-stock-container {
   min-height: 100vh;
-  padding: 35px 25px;
-  position: relative;
-
-  background:
-    radial-gradient(circle at top left, rgba(255, 77, 45, 0.15), transparent 40%),
-    radial-gradient(circle at bottom right, rgba(255, 140, 0, 0.12), transparent 35%),
-    #0b0b0b;
+  background-color: #141414;
+  padding: 32px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #e0e0e0;
 }
 
-/* TITLE */
 .raw-stock-container h2 {
-  text-align: center;
-  font-family: 'Syne', sans-serif;
-  font-size: 34px;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 25px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 24px;
+  letter-spacing: 0.3px;
 }
 
-.raw-stock-container h2::after {
-  content: "";
-  display: block;
-  width: 120px;
-  height: 3px;
-  margin: 10px auto 0;
-  background: linear-gradient(135deg, #ff4d2d, #ff8c00);
-  border-radius: 10px;
-}
+/* ===========================
+   TWO-COLUMN LAYOUT
+=========================== */
 
-/* FORM CARD (GLASS STYLE) */
-.raw-form {
-  max-width: 900px;
-  margin: 0 auto 30px;
+.raw-stock-layout {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-
-  padding: 25px;
-  border-radius: 22px;
-
-  background: rgba(18, 18, 18, 0.92);
-  backdrop-filter: blur(18px);
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  box-shadow:
-    0 25px 80px rgba(0, 0, 0, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+  align-items: start;
 }
 
-/* INPUTS */
-.raw-form input {
-  padding: 14px;
+/* ===========================
+   FORM CARD  (left column)
+=========================== */
+
+.raw-form {
+  background-color: #1e1e1e;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
-  color: #fff;
-  outline: none;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 32px;
+}
+
+.raw-form input,
+.raw-form select {
+  width: 100%;
+  background-color: #2a2a2a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 13px 16px;
   font-size: 14px;
-  transition: 0.3s;
+  color: #d0d0d0;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
 .raw-form input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: #666;
 }
 
-.raw-form input:focus {
-  border: 1px solid rgba(255, 77, 45, 0.4);
-  box-shadow: 0 0 0 4px rgba(255, 77, 45, 0.08);
-  background: rgba(255, 255, 255, 0.06);
+.raw-form input:focus,
+.raw-form select:focus {
+  border-color: #f97316;
 }
 
-/* BUTTON */
-.raw-form button {
-  grid-column: span 4;
-  padding: 15px;
-  border: none;
-  border-radius: 18px;
-
-  font-weight: 700;
-  font-size: 15px;
-  color: #fff;
-
+.raw-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
   cursor: pointer;
+}
 
-  background: linear-gradient(135deg, #ff4d2d, #ff8c00);
-
-  box-shadow: 0 16px 35px rgba(255, 77, 45, 0.25);
-
-  transition: 0.35s;
+.raw-form button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.4px;
+  transition: opacity 0.2s, transform 0.15s;
+  margin-top: 4px;
 }
 
 .raw-form button:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 24px 45px rgba(255, 77, 45, 0.38);
+  opacity: 0.92;
+  transform: translateY(-1px);
 }
 
-/* LIST GRID */
-.raw-list {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
+.raw-form button:active {
+  transform: translateY(0);
 }
 
-/* CARD (GLASS STYLE) */
-.raw-card {
-  padding: 18px;
-  border-radius: 20px;
+/* ===========================
+   TABLE WRAPPER (right column)
+=========================== */
 
-  background: rgba(18, 18, 18, 0.92);
-  backdrop-filter: blur(18px);
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  box-shadow:
-    0 25px 80px rgba(0, 0, 0, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
-
-  transition: 0.3s;
-}
-
-.raw-card:hover {
-  transform: translateY(-6px);
-}
-
-/* CARD TEXT */
-.raw-card h3 {
-  font-family: 'Syne', sans-serif;
-  color: #fff;
-  margin-bottom: 10px;
-}
-
-.raw-card p {
-  color: rgba(255, 255, 255, 0.7);
-  margin: 6px 0;
-}
-
-/* LOW STOCK WARNING */
-.low-stock {
-  margin-top: 10px;
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 10px;
-
-  font-weight: 700;
-  font-size: 12px;
-
-  color: #ff4d2d;
-
-  background: rgba(255, 77, 45, 0.12);
-  border: 1px solid rgba(255, 77, 45, 0.25);
-}
-
-/* LOADING TEXT */
-.raw-list p {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .raw-form {
-    grid-template-columns: 1fr;
-    padding: 18px;
-  }
-
-  .raw-form button {
-    grid-column: span 1;
-  }
-
-  .raw-stock-container h2 {
-    font-size: 26px;
-  }
-}
 .raw-table-wrapper {
-  max-width: 1000px;
-  margin: 20px auto;
-  background: rgba(18, 18, 18, 0.92);
-  backdrop-filter: blur(18px);
-  border-radius: 20px;
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.65);
+  background-color: #1e1e1e;
+  border-radius: 14px;
+  padding: 24px;
+  overflow-x: auto;
 }
+
+/* ===========================
+   LOADING / EMPTY STATE
+=========================== */
+
+.loading {
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+  padding: 40px 0;
+}
+
+/* ===========================
+   TABLE
+=========================== */
 
 .raw-table {
   width: 100%;
   border-collapse: collapse;
-  color: #fff;
-  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
 }
 
-.raw-table th {
+.raw-table thead tr {
+  border-bottom: 1px solid #2e2e2e;
+}
+
+.raw-table thead th {
   text-align: left;
-  padding: 14px;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 16px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #888;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
 }
 
-.raw-table td {
-  padding: 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  font-size: 14px;
+.raw-table tbody tr {
+  border-bottom: 1px solid #262626;
+  transition: background-color 0.15s;
 }
 
-.raw-table tr:hover {
-  background: rgba(255, 255, 255, 0.04);
-  transition: 0.3s;
+.raw-table tbody tr:last-child {
+  border-bottom: none;
 }
 
-/* STATUS BADGES */
-.low {
-  background: rgba(255, 77, 45, 0.15);
-  color: #ff4d2d;
-  padding: 5px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 700;
+.raw-table tbody tr:hover {
+  background-color: #242424;
 }
 
-.ok {
-  background: rgba(0, 255, 120, 0.12);
-  color: #00ff78;
-  padding: 5px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 700;
+.raw-table tbody td {
+  padding: 14px 16px;
+  color: #d0d0d0;
+  vertical-align: middle;
 }
 
-.loading {
-  color: rgba(255, 255, 255, 0.6);
-  text-align: center;
-}
-/* =========================
-   STOCK + / - BUTTONS
-========================= */
+/* ===========================
+   STOCK CONTROLS
+=========================== */
 
 .stock-controls {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  gap: 10px;
 }
 
-.stock-controls button {
-  width: 28px;
-  height: 28px;
-  border: none;
-  border-radius: 6px;
-  background: #ff4d2d;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.stock-controls button:hover {
-  background: #e63d1f;
-  transform: scale(1.05);
-}
-
-.stock-controls button:active {
-  transform: scale(0.95);
-}
-
-/* stock number */
 .stock-controls span {
   font-weight: 600;
-  min-width: 30px;
+  font-size: 14px;
+  color: #22c55e;
+  min-width: 36px;
   text-align: center;
 }
 
-/* =========================
-   DELETE BUTTON
-========================= */
-
-.raw-table td button {
-  padding: 6px 10px;
-  border: none;
+.qty-btn {
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
-  background: #ff1f1f;
-  color: #fff;
-  font-size: 13px;
+  border: 1px solid #3a3a3a;
+  background-color: #2a2a2a;
+  color: #ccc;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s, border-color 0.15s;
+  line-height: 1;
 }
 
-.raw-table td button:hover {
-  background: #d90000;
-  transform: scale(1.05);
+.qty-btn:hover {
+  background-color: #333;
+  border-color: #f97316;
+  color: #f97316;
 }
 
-.raw-table td button:active {
-  transform: scale(0.95);
-}
+/* ===========================
+   THRESHOLD INPUT
+=========================== */
+
 .threshold-input {
-    width: 80px;
-    padding: 6px 8px;
-    text-align: center;
-    border: 1.5px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    outline: none;
-    transition: all 0.2s ease;
-    background: #fff;
+  width: 72px;
+  background-color: #2a2a2a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 13px;
+  color: #d0d0d0;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.2s;
 }
 
 .threshold-input:focus {
-    border-color: #ff6b6b;
-    box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.15);
+  border-color: #f97316;
+}
+
+/* ===========================
+   STATUS BADGES
+=========================== */
+
+.low {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ===========================
+   ACTION BUTTONS
+=========================== */
+
+.delete-btn {
+  padding: 7px 16px;
+  background-color: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.delete-btn:hover {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+}
+
+.delete-btn:active {
+  transform: translateY(0);
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width: 900px) {
+  .raw-stock-container {
+    padding: 20px 16px;
+  }
+
+  .raw-stock-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .raw-form {
+    position: static;
+  }
+
+  .raw-table-wrapper {
+    padding: 16px 12px;
+  }
+
+  .raw-table thead th,
+  .raw-table tbody td {
+    padding: 10px 10px;
+  }
 }
