@@ -1,3 +1,5 @@
+// orderRoutes.js
+
 import express from "express";
 import Order from "../models/Order.js";
 import Inventory from "../models/Inventory.js";
@@ -7,7 +9,9 @@ import {
   protect,
   adminOnly,
 } from "../middleware/authMiddleware.js";
-
+import {
+  createCustomPizzaOrder,
+} from "../controllers/customOrderController.js";
 const router = express.Router();
 
 router.post("/create", protect, async (req, res) => {
@@ -112,6 +116,16 @@ router.get(
           "Failed to fetch orders",
       });
     }
+  }
+);
+router.post(
+  "/custom-create",
+  (req, res) => {
+    console.log("CUSTOM ROUTE HIT");
+    res.json({
+      success: true,
+      message: "custom route working",
+    });
   }
 );
 

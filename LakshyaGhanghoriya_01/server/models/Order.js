@@ -11,9 +11,8 @@ const orderSchema = new mongoose.Schema(
    pizzas: [
   {
     _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Inventory",
-    },
+  type: mongoose.Schema.Types.Mixed,
+},
 
     name: String,
 
