@@ -56,7 +56,27 @@ a { text-decoration: none; color: inherit; }
   border: none;
   white-space: nowrap;
 }
+.chef-content h2 {
+  font-family: var(--font-display);   /* ← add this */
+  font-weight: 800;                   /* ← add this */
+  font-size: 52px;
+  color: #fff;
+  margin: 20px 0;
+}
 
+.app-content h2 {
+  font-family: var(--font-display);   /* ← add this */
+  font-weight: 800;                   /* ← add this */
+  font-size: 54px;
+  margin: 18px 0;
+  color: #fff;
+}
+.deal-content h2 {
+  font-family: var(--font-display);   /* ← add this */
+  font-weight: 800;                   /* ← add this */
+  font-size: 62px;
+  margin: 20px 0;
+}
 .primary-btn {
   background: var(--orange);
   color: #fff;
