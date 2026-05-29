@@ -1,5 +1,3 @@
-// routes/orderRoutes.js
-
 import express from "express";
 import Order from "../models/Order.js";
 import Inventory from "../models/Inventory.js";
@@ -12,19 +10,12 @@ import {
 
 const router = express.Router();
 
-
-
-// CREATE ORDER
-// POST /api/orders/create
-
-// CREATE ORDER
 router.post("/create", protect, async (req, res) => {
   try {
     const { pizzas, total, deliveryAddress } = req.body;
 
     console.log(req.body);
 
-    // VALIDATION (UNCHANGED)
     if (!pizzas || !Array.isArray(pizzas) || pizzas.length === 0) {
       return res.status(400).json({
         success: false,
@@ -45,10 +36,6 @@ router.post("/create", protect, async (req, res) => {
         message: "Delivery address required",
       });
     }
-
-    // =========================
-    // 🔥 ONLY ADDITION (SAFE)
-    // =========================
 
     for (let item of pizzas) {
       const inventoryItem = await Inventory.findById(item._id);
@@ -74,10 +61,6 @@ router.post("/create", protect, async (req, res) => {
       });
     }
 
-    // =========================
-    // 🔥 ORIGINAL ORDER CREATION (UNCHANGED)
-    // =========================
-
     const order = await Order.create({
       user: req.user._id,
       pizzas,
@@ -102,11 +85,6 @@ router.post("/create", protect, async (req, res) => {
     });
   }
 });
-
-
-
-// GET MY ORDERS
-// GET /api/orders/my-orders
 
 router.get(
   "/my-orders",
@@ -136,11 +114,6 @@ router.get(
     }
   }
 );
-
-
-
-// GET ALL ORDERS (ADMIN)
-// GET /api/orders/all
 
 router.get(
   "/all",

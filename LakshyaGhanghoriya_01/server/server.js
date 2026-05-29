@@ -1,5 +1,3 @@
-// server.js
-
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -10,8 +8,6 @@ import http from "http";
 import { Server } from "socket.io";
 
 import connectDB from "./config/db.js";
-
-/* ================= ROUTES ================= */
 
 import authRoutes from "./routes/authRoutes.js";
 import pizzaRoutes from "./routes/pizzaRoutes.js";
@@ -27,19 +23,11 @@ import offerRoutes from "./routes/offerRoutes.js";
 import featuredRoutes from "./routes/featuredRoutes.js";
 import rawMaterialRoutes from "./routes/rawMaterialRoutes.js";
 
-/* ================= SOCKET ================= */
-
 import { initSocket } from "./sockets/orderSocket.js";
-
-/* ================= APP ================= */
 
 const app = express();
 
-/* ================= HTTP SERVER ================= */
-
 const server = http.createServer(app);
-
-/* ================= SOCKET IO ================= */
 
 const io = new Server(server, {
   cors: {
@@ -49,28 +37,18 @@ const io = new Server(server, {
   },
 });
 
-/* ================= INITIALIZE SOCKET ================= */
-
 initSocket(io);
-
-/* ================= MAKE SOCKET GLOBAL ================= */
 
 app.set("io", io);
 
-/* ================= DATABASE ================= */
-
 connectDB();
 
-/* ================= MIDDLEWARE ================= */
-
-// JSON parser
 app.use(
   express.json({
     limit: "10mb",
   })
 );
 
-// Form parser
 app.use(
   express.urlencoded({
     extended: true,
@@ -78,7 +56,6 @@ app.use(
   })
 );
 
-// CORS
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "*",
@@ -86,10 +63,7 @@ app.use(
   })
 );
 
-// Logger
 app.use(morgan("dev"));
-
-/* ================= API ROUTES ================= */
 
 app.use("/api/auth", authRoutes);
 
@@ -117,16 +91,12 @@ app.use("/api/address", addressRoutes);
 
 app.use("/api/users", userRoutes);
 
-/* ================= ROOT ================= */
-
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
     message: "🍕 Pizza Delivery API Running",
   });
 });
-
-/* ================= HEALTH CHECK ================= */
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({
@@ -138,16 +108,12 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-/* ================= 404 HANDLER ================= */
-
 app.use((req, res) => {
   res.status(404).json({
     success: false,
     message: `Route not found -> ${req.originalUrl}`,
   });
 });
-
-/* ================= GLOBAL ERROR HANDLER ================= */
 
 app.use((err, req, res, next) => {
   console.error("🔥 SERVER ERROR:");

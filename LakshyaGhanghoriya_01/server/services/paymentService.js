@@ -1,5 +1,3 @@
-// services/paymentService.js
-
 import razorpay from '../config/razorpay.js'
 
 export const createRazorpayOrder =

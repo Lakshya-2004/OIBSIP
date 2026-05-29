@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap');
 
-/* ─── RESET & BASE ─────────────────────────────────────────── */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -32,7 +31,6 @@ body {
 
 a { text-decoration: none; color: inherit; }
 
-/* ─── SHARED UTILITIES ──────────────────────────────────────── */
 .gradient-text {
   background: linear-gradient(135deg, var(--orange) 0%, #ffb347 100%);
   -webkit-background-clip: text;
@@ -57,23 +55,23 @@ a { text-decoration: none; color: inherit; }
   white-space: nowrap;
 }
 .chef-content h2 {
-  font-family: var(--font-display);   /* ← add this */
-  font-weight: 800;                   /* ← add this */
+  font-family: var(--font-display);
+  font-weight: 800;
   font-size: 52px;
   color: #fff;
   margin: 20px 0;
 }
 
 .app-content h2 {
-  font-family: var(--font-display);   /* ← add this */
-  font-weight: 800;                   /* ← add this */
+  font-family: var(--font-display);
+  font-weight: 800;
   font-size: 54px;
   margin: 18px 0;
   color: #fff;
 }
 .deal-content h2 {
-  font-family: var(--font-display);   /* ← add this */
-  font-weight: 800;                   /* ← add this */
+  font-family: var(--font-display);
+  font-weight: 800;
   font-size: 62px;
   margin: 20px 0;
 }
@@ -135,13 +133,11 @@ a { text-decoration: none; color: inherit; }
   font-size: 1rem;
 }
 
-/* ─── HOME WRAPPER ──────────────────────────────────────────── */
 .home {
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* ─── HERO ──────────────────────────────────────────────────── */
 .hero {
   position: relative;
   min-height: 92vh;
@@ -295,7 +291,7 @@ a { text-decoration: none; color: inherit; }
   50%       { transform: translateY(-10px); }
 }
 
-/* ─── STATS BAR ─────────────────────────────────────────────── */
+
 .stats-bar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -330,7 +326,7 @@ a { text-decoration: none; color: inherit; }
   letter-spacing: 0.04em;
 }
 
-/* ─── FEATURES ──────────────────────────────────────────────── */
+
 .features-section {
   padding: 100px 8%;
 }
@@ -375,7 +371,7 @@ a { text-decoration: none; color: inherit; }
   line-height: 1.65;
 }
 
-/* ─── MENU ──────────────────────────────────────────────────── */
+
 .menu-section {
   padding: 100px 8%;
   background: linear-gradient(180deg, var(--bg) 0%, rgba(20,14,8,0.5) 100%);

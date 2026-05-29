@@ -25,17 +25,7 @@ export function CartProvider({
         : [];
     });
 
-  //  Save cart whenever it changes
-  useEffect(() => {
 
-    localStorage.setItem(
-      "pizza-cart",
-      JSON.stringify(cart)
-    );
-
-  }, [cart]);
-
-  //  Add item to cart
   const addToCart = (item) => {
 
     setCart((prev) => {
@@ -48,7 +38,6 @@ export function CartProvider({
             (item._id || item.id)
         );
 
-      // If item already exists → increase quantity
       if (existingItem) {
 
         return prev.map(
@@ -71,7 +60,6 @@ export function CartProvider({
         );
       }
 
-      // Otherwise add new item
       return [
         ...prev,
         {
@@ -83,7 +71,6 @@ export function CartProvider({
     });
   };
 
-  //  Remove item
   const removeFromCart = (
     itemId
   ) => {
@@ -98,7 +85,6 @@ export function CartProvider({
     );
   };
 
-  //  Increase quantity
   const increaseQuantity = (
     itemId
   ) => {
@@ -121,7 +107,6 @@ export function CartProvider({
     );
   };
 
-  //  Decrease quantity
   const decreaseQuantity = (
     itemId
   ) => {
@@ -145,7 +130,6 @@ export function CartProvider({
     );
   };
 
-  //  Clear cart after order
   const clearCart = () => {
 
     setCart([]);

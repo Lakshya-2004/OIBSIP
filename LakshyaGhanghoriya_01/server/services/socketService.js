@@ -1,5 +1,3 @@
-// services/socketService.js
-
 let io = null
 
 export const initializeSocket = (

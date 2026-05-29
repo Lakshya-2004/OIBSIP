@@ -1,5 +1,3 @@
-// routes/adminRoutes.js
-
 import express from 'express'
 
 import { getAdminDashboard } from '../controllers/adminController.js'

@@ -10,35 +10,25 @@ import {
 
 const router = express.Router();
 
-/* ================= GET ALL ================= */
-
 router.get(
   "/",
   getRawMaterials
 );
-
-/* ================= CREATE ================= */
 
 router.post(
   "/",
   createRawMaterial
 );
 
-/* ================= UPDATE STOCK ================= */
-
 router.patch(
   "/:id/stock",
   updateStock
 );
 
-/* ================= UPDATE MATERIAL ================= */
-
 router.put(
   "/:id",
   updateRawMaterial
 );
-
-/* ================= DELETE ================= */
 
 router.delete(
   "/:id",

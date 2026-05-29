@@ -1,5 +1,3 @@
-// components/pizza/PizzaCard.jsx
-
 import { Link } from 'react-router-dom'
 
 function PizzaCard({ pizza }) {

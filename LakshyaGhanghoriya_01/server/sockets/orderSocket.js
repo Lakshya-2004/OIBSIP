@@ -18,7 +18,6 @@ export const initSocket = (io) => {
   });
 };
 
-// ORDER STATUS
 export const emitOrderUpdate = (
   order
 ) => {
@@ -32,7 +31,6 @@ export const emitOrderUpdate = (
   }
 };
 
-// LOW STOCK ALERT
 export const emitLowStockAlert = (
   item
 ) => {

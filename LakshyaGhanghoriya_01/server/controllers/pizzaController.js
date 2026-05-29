@@ -1,5 +1,3 @@
-// controllers/pizzaController.js
-
 import Pizza from '../models/Pizza.js'
 
 export const getAllPizzas = async (

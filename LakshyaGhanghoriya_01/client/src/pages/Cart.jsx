@@ -25,9 +25,6 @@ function Cart() {
     0
   );
 
-  // =========================
-  // PLACE ORDER
-  // =========================
 
   const placeOrder = async () => {
 
@@ -54,26 +51,15 @@ function Cart() {
         Authorization: `Bearer ${token}`,
       };
 
-      // =========================
-      // STEP 1 : CREATE RAZORPAY ORDER
-      // =========================
-
-      const {
-        data: razorpayOrder,
-      } = await axios.post(
+      const { data: razorpayOrder, } = await axios.post(
         "http://localhost:5000/api/payment/create-order",
 
-        // ✅ PAYMENT ROUTE ONLY NEEDS AMOUNT
         {
           amount: Number(totalPrice),
         },
 
         { headers }
       );
-
-      // =========================
-      // STEP 2 : OPEN RAZORPAY
-      // =========================
 
       const options = {
 
@@ -92,10 +78,6 @@ function Cart() {
           "Pizza Order Payment",
 
         order_id: razorpayOrder.id,
-
-        // =========================
-        // PAYMENT SUCCESS
-        // =========================
 
         handler: async () => {
 

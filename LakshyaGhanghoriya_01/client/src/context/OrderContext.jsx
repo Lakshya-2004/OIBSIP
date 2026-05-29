@@ -1,5 +1,3 @@
-// context/OrderContext.jsx
-
 import { createContext, useState } from 'react'
 
 export const OrderContext = createContext()
@@ -9,12 +7,10 @@ export const OrderProvider = ({
 }) => {
   const [orders, setOrders] = useState([])
 
-  // Add New Order
   const addOrder = (order) => {
     setOrders((prev) => [order, ...prev])
   }
 
-  // Remove Order
   const removeOrder = (orderId) => {
     setOrders((prev) =>
       prev.filter(
@@ -23,7 +19,6 @@ export const OrderProvider = ({
     )
   }
 
-  // Update Order Status
   const updateOrderStatus = (
     orderId,
     status
@@ -40,7 +35,6 @@ export const OrderProvider = ({
     )
   }
 
-  // Clear Orders
   const clearOrders = () => {
     setOrders([])
   }

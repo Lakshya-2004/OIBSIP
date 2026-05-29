@@ -1,5 +1,3 @@
-// pages/VerifyEmail.jsx
-
 import {
   useEffect,
   useState,

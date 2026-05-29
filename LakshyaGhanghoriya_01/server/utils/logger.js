@@ -1,5 +1,3 @@
-// utils/logger.js
-
 const logger = (message) => {
   const currentTime =
     new Date().toLocaleString()

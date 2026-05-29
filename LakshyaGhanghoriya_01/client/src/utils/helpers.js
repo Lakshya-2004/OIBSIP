@@ -1,6 +1,3 @@
-// utils/helpers.js
-
-// Format Currency
 export const formatCurrency = (
   amount
 ) => {
@@ -9,7 +6,6 @@ export const formatCurrency = (
   )}`
 }
 
-// Calculate Cart Total
 export const calculateCartTotal = (
   cart
 ) => {
@@ -20,7 +16,6 @@ export const calculateCartTotal = (
   )
 }
 
-// Calculate Total Quantity
 export const calculateTotalQuantity = (
   cart
 ) => {
@@ -30,12 +25,10 @@ export const calculateTotalQuantity = (
   )
 }
 
-// Generate Random Order ID
 export const generateOrderId = () => {
   return `ORD-${Date.now()}`
 }
 
-// Capitalize First Letter
 export const capitalize = (text) => {
   if (!text) return ''
 
@@ -45,22 +38,18 @@ export const capitalize = (text) => {
   )
 }
 
-// Get Token
 export const getToken = () => {
   return localStorage.getItem('token')
 }
 
-// Save Token
 export const saveToken = (token) => {
   localStorage.setItem('token', token)
 }
 
-// Remove Token
 export const removeToken = () => {
   localStorage.removeItem('token')
 }
 
-// Save User
 export const saveUser = (user) => {
   localStorage.setItem(
     'user',
@@ -68,21 +57,18 @@ export const saveUser = (user) => {
   )
 }
 
-// Get User
 export const getUser = () => {
   const user = localStorage.getItem('user')
 
   return user ? JSON.parse(user) : null
 }
 
-// Logout User
 export const logoutUser = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('role')
   localStorage.removeItem('user')
 }
 
-// Shorten Text
 export const truncateText = (
   text,
   maxLength = 100
@@ -95,7 +81,6 @@ export const truncateText = (
   )
 }
 
-// Validate Email
 export const validateEmail = (email) => {
   return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(
     email

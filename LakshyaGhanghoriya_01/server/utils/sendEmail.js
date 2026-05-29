@@ -1,5 +1,3 @@
-// utils/sendEmail.js
-
 import transporter from '../config/mailer.js'
 
 const sendEmail = async ({

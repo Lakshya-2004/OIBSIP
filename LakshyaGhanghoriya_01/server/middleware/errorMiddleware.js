@@ -1,5 +1,3 @@
-// middleware/errorMiddleware.js
-
 const errorMiddleware = (
   err,
   req,

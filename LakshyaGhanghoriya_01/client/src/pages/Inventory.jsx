@@ -1,5 +1,3 @@
-// pages/Inventory.jsx
-
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import Loader from "../components/common/Loader";
@@ -52,7 +50,6 @@ function Inventory() {
     };
 
   }, []);
-  // FETCH INVENTORY
   const fetchInventory = async () => {
     try {
       setLoading(true);
@@ -71,7 +68,6 @@ function Inventory() {
     }
   };
 
-  // HANDLE FORM CHANGE
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -80,7 +76,6 @@ function Inventory() {
     });
   };
 
-  // RESET FORM
   const resetForm = () => {
     setForm({
       name: "",
@@ -94,7 +89,6 @@ function Inventory() {
     setEditingId(null);
   };
 
-  // SUBMIT FORM
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -134,7 +128,6 @@ function Inventory() {
     }
   };
 
-  // EDIT
   const handleEdit = (item) => {
     setEditingId(item._id);
 
@@ -155,7 +148,6 @@ function Inventory() {
     });
   };
 
-  // DELETE
   const handleDelete = async (id) => {
     const confirmDelete =
       window.confirm(
@@ -179,7 +171,6 @@ function Inventory() {
     }
   };
 
-  // FILTER
   const filteredInventory =
     inventory.filter((item) => {
       const matchesSearch =
@@ -201,7 +192,6 @@ function Inventory() {
       );
     });
 
-  // LOW STOCK
   const getStockColor = (stock) => {
     if (stock <= 5) return "#ef4444";
     if (stock <= 15) return "#f59e0b";
@@ -400,7 +390,6 @@ function Inventory() {
         </p>
 
         <div style={styles.grid}>
-          {/* LEFT FORM */}
           <div style={styles.card}>
             <h2 style={styles.sectionTitle}>
               {editingId
@@ -515,7 +504,6 @@ function Inventory() {
             </form>
           </div>
 
-          {/* RIGHT TABLE */}
           <div style={styles.card}>
             {/* TOP BAR */}
             <div
@@ -551,7 +539,6 @@ function Inventory() {
               </span>
             </div>
 
-            {/* SEARCH + FILTER */}
             <div
               style={{
                 display: "flex",
@@ -619,7 +606,6 @@ function Inventory() {
               </select>
             </div>
 
-            {/* TABLE */}
             {loading ? (
               <Loader />
             ) : (

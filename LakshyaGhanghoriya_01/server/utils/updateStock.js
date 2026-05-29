@@ -1,9 +1,5 @@
 import Pizza from "../models/Pizza.js";
 
-/**
- * Reduce stock after order success
- * @param {Array} items - order items
- */
 export const updateStockAfterOrder = async (items) => {
   try {
     for (const item of items) {

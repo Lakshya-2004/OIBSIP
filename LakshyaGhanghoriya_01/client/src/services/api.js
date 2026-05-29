@@ -7,8 +7,6 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// REQUEST INTERCEPTOR
-
 api.interceptors.request.use(
   (config) => {
 
@@ -35,8 +33,6 @@ api.interceptors.request.use(
   }
 );
 
-// RESPONSE INTERCEPTOR
-
 api.interceptors.response.use(
 
   (response) => response,
@@ -45,8 +41,6 @@ api.interceptors.response.use(
 
     const status =
       error?.response?.status;
-
-    // TOKEN EXPIRED / INVALID
 
     if (status === 401) {
 
@@ -57,8 +51,6 @@ api.interceptors.response.use(
       localStorage.removeItem(
         "user"
       );
-
-      // prevent redirect loop
 
       if (
         window.location.pathname !==
@@ -72,8 +64,6 @@ api.interceptors.response.use(
 
     }
 
-    // FORBIDDEN ACCESS
-
     if (status === 403) {
 
       console.log(
@@ -81,8 +71,6 @@ api.interceptors.response.use(
       );
 
     }
-
-    // SERVER ERROR
 
     if (status === 500) {
 

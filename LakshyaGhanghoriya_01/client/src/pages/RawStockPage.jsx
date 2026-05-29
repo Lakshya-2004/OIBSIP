@@ -16,10 +16,6 @@ function RawStockPage() {
     threshold: 5,
   });
 
-  /* =========================
-     SOCKET CONNECTION
-  ========================= */
-
   useEffect(() => {
     const socket = io("http://localhost:5000");
 
@@ -40,10 +36,6 @@ function RawStockPage() {
     };
   }, []);
 
-  /* =========================
-     FETCH INVENTORY
-  ========================= */
-
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -61,10 +53,6 @@ function RawStockPage() {
     fetchData();
   }, []);
 
-  /* =========================
-     HANDLE INPUT
-  ========================= */
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -75,10 +63,6 @@ function RawStockPage() {
           : value,
     }));
   };
-
-  /* =========================
-     ADD ITEM
-  ========================= */
 
   const addItem = async () => {
     try {
@@ -113,10 +97,6 @@ function RawStockPage() {
     }
   };
 
-  /* =========================
-     UPDATE STOCK
-  ========================= */
-
   const updateStock = async (item, change) => {
     try {
       await axios.patch(`${API}/${item._id}/stock`, { change });
@@ -126,10 +106,6 @@ function RawStockPage() {
       alert("Failed to update stock");
     }
   };
-
-  /* =========================
-     UPDATE THRESHOLD
-  ========================= */
 
   const updateThreshold = async (item, newThreshold) => {
     try {
@@ -143,10 +119,6 @@ function RawStockPage() {
     }
   };
 
-  /* =========================
-     DELETE ITEM
-  ========================= */
-
   const deleteItem = async (id) => {
     const confirmDelete = window.confirm("Delete this item?");
     if (!confirmDelete) return;
@@ -159,10 +131,6 @@ function RawStockPage() {
       alert("Failed to delete item");
     }
   };
-
-  /* =========================
-     STYLES
-  ========================= */
 
   const styles = {
     page: {
@@ -326,10 +294,6 @@ function RawStockPage() {
     );
   };
 
-  /* =========================
-     UI
-  ========================= */
-
   return (
     <div style={styles.page}>
       <div style={styles.container}>
@@ -386,7 +350,6 @@ function RawStockPage() {
             </button>
           </div>
 
-          {/* RIGHT — TABLE */}
           <div style={styles.card}>
             {/* HEADER */}
             <div
@@ -455,7 +418,6 @@ function RawStockPage() {
                         }}
                         style={{ transition: "0.3s" }}
                       >
-                        {/* NAME */}
                         <td style={styles.td}>{item.name}</td>
 
                         {/* STOCK CONTROLS */}
@@ -494,7 +456,6 @@ function RawStockPage() {
                           </div>
                         </td>
 
-                        {/* UNIT */}
                         <td style={styles.td}>{item.unit}</td>
 
                         {/* THRESHOLD */}
@@ -509,12 +470,11 @@ function RawStockPage() {
                           />
                         </td>
 
-                        {/* STATUS */}
+
                         <td style={styles.td}>
                           {getStatusBadge(item.stock, item.threshold)}
                         </td>
 
-                        {/* DELETE */}
                         <td style={styles.td}>
                           <button
                             style={{

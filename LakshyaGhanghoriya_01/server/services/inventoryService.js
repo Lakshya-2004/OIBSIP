@@ -1,8 +1,5 @@
-// services/inventoryService.js
-
 import Inventory from "../models/Inventory.js";
 
-// GET ALL INVENTORY
 export const getAllInventory =
   async () => {
 
@@ -12,7 +9,6 @@ export const getAllInventory =
       });
   };
 
-// CREATE INVENTORY ITEM
 export const createInventory =
   async (data) => {
 
@@ -21,7 +17,6 @@ export const createInventory =
     );
   };
 
-// UPDATE INVENTORY ITEM
 export const updateInventoryStock =
   async (id, stock) => {
 
@@ -32,7 +27,6 @@ export const updateInventoryStock =
     );
   };
 
-// DECREASE STOCK
 export const decreaseStock =
   async (
     id,
@@ -50,7 +44,6 @@ export const decreaseStock =
     );
   };
 
-// DELETE INVENTORY ITEM
 export const deleteInventory =
   async (id) => {
 

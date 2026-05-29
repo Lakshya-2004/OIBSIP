@@ -1,5 +1,3 @@
-// services/emailService.js
-
 import { sendEmail } from '../config/mailer.js'
 
 export const sendWelcomeEmail =

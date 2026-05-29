@@ -1,5 +1,3 @@
-// utils/validators.js
-
 export const isValidEmail = (
   email
 ) => {

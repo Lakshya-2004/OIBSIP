@@ -1,5 +1,3 @@
-// controllers/adminController.js
-
 import Order from '../models/Order.js'
 
 export const getAdminDashboard =

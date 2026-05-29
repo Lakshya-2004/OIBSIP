@@ -1,5 +1,3 @@
-// services/pizzaService.js
-
 import api from './api'
 
 export const getAllPizzas = async () => {

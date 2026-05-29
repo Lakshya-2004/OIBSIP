@@ -18,7 +18,6 @@ function Home() {
     fetchOffer();
   }, []);
 
-  // ✅ FIXED LIVE TIMER (DO NOT CHANGE UI)
   useEffect(() => {
     const expiryRaw = offer?.expiresAt || offer?.expiryTime;
     if (!expiryRaw) return;

@@ -1,5 +1,3 @@
-// routes/pizzaRoutes.js
-
 import express from 'express'
 
 import {

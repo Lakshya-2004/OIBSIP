@@ -1,5 +1,3 @@
-// services/orderService.js
-
 import api from "./api";
 
 // CREATE ORDER
