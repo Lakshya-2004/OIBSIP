@@ -91,9 +91,8 @@ function Cart() {
             // =========================
 
             const orderPayload = {
-
               pizzas: cart.map((item) => ({
-                _id: item._id || item.id, // ⭐ THIS IS REQUIRED FOR INVENTORY
+                ...(item._id && { _id: item._id }),
 
                 name: item.name || "Pizza",
                 quantity: Number(item.quantity || 1),
@@ -109,30 +108,33 @@ function Cart() {
               total: Number(totalPrice),
               deliveryAddress: deliveryAddress.trim(),
             };
+            console.log(
+              JSON.stringify(orderPayload, null, 2)
+            );
             const hasCustomPizza = cart.some(
-  (item) =>
-    item.base &&
-    item.sauce &&
-    item.cheese
-);
+              (item) =>
+                item.base &&
+                item.sauce &&
+                item.cheese
+            );
 
-const endpoint = hasCustomPizza
-  ? "http://localhost:5000/api/orders/custom-create"
-  : "http://localhost:5000/api/orders/create";
+            const endpoint = hasCustomPizza
+              ? "http://localhost:5000/api/orders/custom-create"
+              : "http://localhost:5000/api/orders/create";
 
-console.log("================================");
-console.log("HAS CUSTOM PIZZA:", hasCustomPizza);
-console.log("ENDPOINT:", endpoint);
-console.log("PAYLOAD:", orderPayload);
-console.log("================================");
+            console.log("================================");
+            console.log("HAS CUSTOM PIZZA:", hasCustomPizza);
+            console.log("ENDPOINT:", endpoint);
+            console.log("PAYLOAD:", orderPayload);
+            console.log("================================");
 
-const response = await axios.post(
-  endpoint,
-  orderPayload,
-  { headers }
-);
+            const response = await axios.post(
+              endpoint,
+              orderPayload,
+              { headers }
+            );
 
-console.log("ORDER RESPONSE:", response.data);
+            console.log("ORDER RESPONSE:", response.data);
             // =========================
             // STEP 4 : CLEAR CART
             // =========================

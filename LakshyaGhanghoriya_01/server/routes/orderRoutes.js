@@ -118,16 +118,6 @@ router.get(
     }
   }
 );
-router.post(
-  "/custom-create",
-  (req, res) => {
-    console.log("CUSTOM ROUTE HIT");
-    res.json({
-      success: true,
-      message: "custom route working",
-    });
-  }
-);
 
 router.get(
   "/all",
@@ -166,7 +156,11 @@ router.get(
 
 // UPDATE ORDER STATUS (ADMIN)
 // PUT /api/orders/status
-
+router.post(
+  "/custom-create",
+  protect,
+  createCustomPizzaOrder
+);
 router.put(
   "/status",
   protect,
