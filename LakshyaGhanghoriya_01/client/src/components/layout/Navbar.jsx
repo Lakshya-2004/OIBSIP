@@ -51,7 +51,7 @@ function Navbar() {
         <div className="nb-bar">
 
           <Link to="/" className="nb-logo">
-            <div className="nb-logo-icon">🍕</div>
+            <div className="nb-logo-icon"><img src="/pizzalogo1.jpg" alt="🍕" /></div>
             Pizza<span>Station</span>
           </Link>
 
