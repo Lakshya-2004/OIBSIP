@@ -1,4 +1,5 @@
 import Inventory from "../models/Inventory.js";
+import { checkLowStock } from "../services/stockService.js";
 
 /**
  * =========================
@@ -23,7 +24,7 @@ export const getInventory = async (req, res) => {
 
 /**
  * =========================
- * ADD NEW RAW ITEM
+ * ADD NEW ITEM
  * =========================
  */
 export const addInventoryItem = async (req, res) => {
@@ -46,6 +47,9 @@ export const addInventoryItem = async (req, res) => {
       threshold: Number(threshold || 5),
     });
 
+    // 🔥 check immediately after creation
+    await checkLowStock(item, "Inventory");
+
     res.status(201).json({
       success: true,
       item,
@@ -60,7 +64,7 @@ export const addInventoryItem = async (req, res) => {
 
 /**
  * =========================
- * UPDATE INVENTORY ITEM
+ * UPDATE ITEM (FULL UPDATE)
  * =========================
  */
 export const updateInventoryItem = async (req, res) => {
@@ -77,6 +81,12 @@ export const updateInventoryItem = async (req, res) => {
         message: "Item not found",
       });
     }
+
+    item.lastStockUpdatedAt = new Date();
+    await item.save();
+
+    // 🔥 LOW STOCK CHECK
+    await checkLowStock(item, "Inventory");
 
     res.status(200).json({
       success: true,
@@ -126,15 +136,9 @@ export const deleteInventoryItem = async (req, res) => {
 export const adjustStock = async (req, res) => {
   try {
     const { id } = req.params;
-    const { change } = req.body; // + or -
+    const { change } = req.body;
 
-    const item = await Inventory.findByIdAndUpdate(
-      id,
-      {
-        $inc: { stock: Number(change) },
-      },
-      { new: true }
-    );
+    const item = await Inventory.findById(id);
 
     if (!item) {
       return res.status(404).json({
@@ -143,17 +147,24 @@ export const adjustStock = async (req, res) => {
       });
     }
 
-    // LOW STOCK ALERT
-    if (item.stock <= (item.threshold || 5)) {
-      const io = req.app.get("io");
+    // safe update
+    item.stock = Math.max(0, item.stock + Number(change));
+    item.lastStockUpdatedAt = new Date();
 
-      if (io) {
-        io.emit("lowInventoryStock", {
-          _id: item._id,
-          name: item.name,
-          stock: item.stock,
-        });
-      }
+    await item.save();
+
+    // 🔥 LOW STOCK CHECK (EMAIL + ALERT)
+    await checkLowStock(item, "Inventory");
+
+    // 🔔 SOCKET ALERT
+    const io = req.app.get("io");
+
+    if (item.stock <= item.threshold && io) {
+      io.emit("lowInventoryStock", {
+        _id: item._id,
+        name: item.name,
+        stock: item.stock,
+      });
     }
 
     res.status(200).json({

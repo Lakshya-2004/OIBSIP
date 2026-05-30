@@ -23,7 +23,6 @@ const inventorySchema = new mongoose.Schema(
       default: 0,
     },
 
-    // LOW STOCK LIMIT
     threshold: {
       type: Number,
       default: 5,
@@ -38,15 +37,24 @@ const inventorySchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
+    // for low stock email system
+    lowStockAlertSent: {
+      type: Boolean,
+      default: false,
+    },
+
+    lastStockUpdatedAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const Inventory = mongoose.model(
-  "Inventory",
-  inventorySchema
-);
+// ✅ THIS IS THE IMPORTANT PART (was missing or broken)
+const Inventory = mongoose.model("Inventory", inventorySchema);
 
 export default Inventory;

@@ -9,7 +9,7 @@ import adminRoutes from './routes/adminRoutes.js'
 import inventoryRoutes from './routes/inventoryRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
 import uploadRoutes from "./routes/uploadRoutes.js";  
-// import rawMaterialRoutes from "./routes/rawMaterialRoutes.js";
+import rawMaterialRoutes from "./routes/rawMaterialRoutes.js";
 const app = express()
 
 app.use(express.json())
@@ -60,7 +60,7 @@ app.use('*', (req, res) => {
     message: 'Route not found',
   })
 })
-
+app.use("/api/raw-material", rawMaterialRoutes);
 app.use((err, req, res, next) => {
   console.log(err)
 

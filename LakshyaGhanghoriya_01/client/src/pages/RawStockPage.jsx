@@ -107,26 +107,44 @@ function RawStockPage() {
   };
 
   const updateStock = async (item, change) => {
-    try {
-      await axios.patch(`${API}/${item._id}/stock`, { change });
-      fetchData();
-    } catch (error) {
-      console.log("Stock update error:", error);
-      alert("Failed to update stock");
+  try {
+    const numericChange = Number(change);
+
+    if (isNaN(numericChange)) {
+      alert("Invalid stock change");
+      return;
     }
-  };
+
+    await axios.patch(`${API}/${item._id}/stock`, {
+      change: numericChange,
+    });
+
+    fetchData();
+  } catch (error) {
+    console.log("Stock update error:", error);
+    alert("Failed to update stock");
+  }
+};
 
   const updateThreshold = async (item, newThreshold) => {
-    try {
-      await axios.put(`${API}/${item._id}`, {
-        threshold: Number(newThreshold),
-      });
-      fetchData();
-    } catch (error) {
-      console.log("Threshold update error:", error);
-      alert("Failed to update threshold");
+  try {
+    const value = Number(newThreshold);
+
+    if (isNaN(value) || value < 0) {
+      alert("Invalid threshold value");
+      return;
     }
-  };
+
+    await axios.put(`${API}/${item._id}`, {
+      threshold: value,
+    });
+
+    fetchData();
+  } catch (error) {
+    console.log("Threshold update error:", error);
+    alert("Failed to update threshold");
+  }
+};
 
   const deleteItem = async (id) => {
     const confirmDelete = window.confirm("Delete this item?");
@@ -488,10 +506,10 @@ function RawStockPage() {
                                 style={styles.thresholdInput}
                                 type="number"
                                 defaultValue={item.threshold}
-                                onBlur={(e) =>
-                                  updateThreshold(item, e.target.value)
-                                }
-                              />
+                                onChange={(e) => (item.tempThreshold = e.target.value)}
+                              /><button onClick={() => updateThreshold(item, item.tempThreshold || item.threshold)}>
+  Save
+</button>
                             </td>
                           </>
                         )}

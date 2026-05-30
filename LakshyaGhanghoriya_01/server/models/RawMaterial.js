@@ -7,7 +7,8 @@ const rawMaterialSchema = new mongoose.Schema(
       required: [true, "Name is required"],
       trim: true,
       lowercase: true,
-      unique: true, // creates index automatically (IMPORTANT)
+      unique: true, // creates index automatically
+      index: true,  // ✅ better performance for searches
     },
 
     stock: {
@@ -28,6 +29,18 @@ const rawMaterialSchema = new mongoose.Schema(
       default: 5,
       min: [0, "Threshold cannot be negative"],
     },
+
+    // ⭐ NEW: prevents repeated low-stock email spam
+    lowStockAlertSent: {
+      type: Boolean,
+      default: false,
+    },
+
+    // ⭐ NEW: optional tracking (very useful for admin panel)
+    lastStockUpdatedAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,
@@ -36,5 +49,6 @@ const rawMaterialSchema = new mongoose.Schema(
 );
 
 
+rawMaterialSchema.index({ name: 1 });
 
 export default mongoose.model("RawMaterial", rawMaterialSchema);

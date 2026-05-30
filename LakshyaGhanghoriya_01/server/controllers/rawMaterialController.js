@@ -1,8 +1,9 @@
 import RawMaterial from "../models/RawMaterial.js";
+import { checkLowStock } from "../services/stockService.js";
 
-// ================================
-// GET ALL RAW STOCK
-// ================================
+/* ================================
+   GET ALL RAW MATERIALS
+================================ */
 export const getRawMaterials = async (req, res) => {
   try {
     const items = await RawMaterial.find().sort({ createdAt: -1 });
@@ -20,18 +21,18 @@ export const getRawMaterials = async (req, res) => {
   }
 };
 
-// ================================
-// CREATE ITEM (SAFE + VALIDATION)
-// ================================
+/* ================================
+   CREATE RAW MATERIAL
+================================ */
 export const createRawMaterial = async (req, res) => {
   try {
     let { name, stock, unit, threshold } = req.body;
 
-    // 🔥 VALIDATION (IMPORTANT)
-    if (!name || stock === undefined || threshold === undefined || !unit) {
+    // validation
+    if (!name || stock === undefined || !unit || threshold === undefined) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required (name, stock, unit, threshold)",
+        message: "All fields are required",
       });
     }
 
@@ -42,7 +43,7 @@ export const createRawMaterial = async (req, res) => {
     if (exists) {
       return res.status(400).json({
         success: false,
-        message: "Item already exists. Use stock update API.",
+        message: "Raw material already exists",
       });
     }
 
@@ -53,9 +54,12 @@ export const createRawMaterial = async (req, res) => {
       threshold: Number(threshold),
     });
 
+    // 🔥 LOW STOCK CHECK (email + socket)
+    await checkLowStock(item, "Raw Material");
+
     res.status(201).json({
       success: true,
-      message: "Item created",
+      message: "Raw material created",
       item,
     });
   } catch (error) {
@@ -66,26 +70,27 @@ export const createRawMaterial = async (req, res) => {
   }
 };
 
-// ================================
-// UPDATE STOCK (SAFE)
-// ================================
-// controllers/rawMaterialController.js
-
-export const updateStock = async (
-  req,
-  res
-) => {
+/* ================================
+   UPDATE STOCK (+ / -)
+================================ */
+export const updateStock = async (req, res) => {
   try {
 
-    const { change } = req.body;
+    // 👇 ADD THIS HERE
+    console.log("REQ BODY:", req.body);
+    console.log("REQ PARAMS:", req.params);
 
-    // find item
-    const item =
-      await RawMaterial.findById(
-        req.params.id
-      );
+    const change = Number(req.body.change);
 
-    // item not found
+    if (req.body.change === undefined || isNaN(change)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid change value",
+      });
+    }
+
+    const item = await RawMaterial.findById(req.params.id);
+
     if (!item) {
       return res.status(404).json({
         success: false,
@@ -93,78 +98,91 @@ export const updateStock = async (
       });
     }
 
-    // update stock safely
-    item.stock = Math.max(
-      0,
-      item.stock + Number(change)
-    );
+    item.stock = Math.max(0, item.stock + change);
 
-    // save item
     await item.save();
 
-    /* ================= LOW STOCK ALERT ================= */
-
-    if (
-      item.stock <= item.threshold
-    ) {
-
-      console.log(
-        `⚠ LOW STOCK: ${item.name}`
-      );
-
-      // emit socket event
-      req.app
-        .get("io")
-        .emit("lowStock", item);
-    }
-
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       item,
     });
 
   } catch (error) {
+    console.log("ERROR:", error);
 
-    console.log(
-      "UPDATE STOCK ERROR:",
-      error
-    );
-
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
+
+/* ================================
+   UPDATE RAW MATERIAL (THRESHOLD/DETAILS)
+================================ */
 export const updateRawMaterial = async (req, res) => {
   try {
     const { id } = req.params;
-    const { threshold } = req.body;
+    const { threshold, unit, name } = req.body;
+
+    console.log("PARAM ID:", id);
+    console.log("BODY:", req.body);
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing ID in request",
+      });
+    }
 
     const item = await RawMaterial.findById(id);
 
     if (!item) {
-      return res.status(404).json({ message: "Item not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Raw material not found",
+      });
     }
 
+    // SAFE threshold update
     if (threshold !== undefined) {
-      item.threshold = Number(threshold);
+      const num = Number(threshold);
+
+      if (isNaN(num)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid threshold value",
+        });
+      }
+
+      item.threshold = num;
     }
+
+    if (unit) item.unit = unit;
+    if (name) item.name = name.trim().toLowerCase();
 
     await item.save();
 
-    res.json({
+    await checkLowStock(item, "Raw Material");
+
+    res.status(200).json({
       success: true,
-      message: "Item updated",
       item,
     });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+
+  } catch (error) {
+    console.log("THRESHOLD UPDATE ERROR:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
-// ================================
-// DELETE ITEM
-// ================================
+
+/* ================================
+   DELETE RAW MATERIAL
+================================ */
 export const deleteRawMaterial = async (req, res) => {
   try {
     const item = await RawMaterial.findById(req.params.id);
@@ -172,7 +190,7 @@ export const deleteRawMaterial = async (req, res) => {
     if (!item) {
       return res.status(404).json({
         success: false,
-        message: "Item not found",
+        message: "Raw material not found",
       });
     }
 
@@ -180,7 +198,7 @@ export const deleteRawMaterial = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Item deleted successfully",
+      message: "Raw material deleted successfully",
     });
   } catch (error) {
     res.status(500).json({
