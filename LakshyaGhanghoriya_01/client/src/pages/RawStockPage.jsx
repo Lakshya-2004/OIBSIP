@@ -8,6 +8,7 @@ const FONT = "'DM Sans', sans-serif";
 function RawStockPage() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
 
   const [form, setForm] = useState({
     name: "",
@@ -15,6 +16,14 @@ function RawStockPage() {
     unit: "kg",
     threshold: 5,
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const socket = io("http://localhost:5000");
@@ -132,10 +141,13 @@ function RawStockPage() {
     }
   };
 
+  const isMobile = windowWidth < 640;
+  const isTablet = windowWidth >= 640 && windowWidth < 1024;
+
   const styles = {
     page: {
       minHeight: "100vh",
-      padding: "40px 20px",
+      padding: isMobile ? "20px 16px" : isTablet ? "30px 20px" : "40px 20px",
       background: "linear-gradient(135deg,#0b0b0b,#171717)",
       color: "#fff",
       fontFamily: FONT,
@@ -147,21 +159,22 @@ function RawStockPage() {
     },
 
     title: {
-      fontSize: "42px",
+      fontSize: isMobile ? "28px" : isTablet ? "36px" : "42px",
       fontWeight: "800",
       marginBottom: "10px",
     },
 
     subtitle: {
       color: "rgba(255,255,255,0.6)",
-      marginBottom: "35px",
+      marginBottom: isMobile ? "20px" : "35px",
       lineHeight: "1.6",
+      fontSize: isMobile ? "14px" : "15px",
     },
 
     grid: {
       display: "grid",
-      gridTemplateColumns: "380px 1fr",
-      gap: "28px",
+      gridTemplateColumns: isMobile ? "1fr" : isTablet ? "1fr" : "380px 1fr",
+      gap: isMobile ? "16px" : "28px",
       alignItems: "start",
     },
 
@@ -169,13 +182,13 @@ function RawStockPage() {
       background: "rgba(255,255,255,0.04)",
       border: "1px solid rgba(255,255,255,0.08)",
       borderRadius: "24px",
-      padding: "24px",
+      padding: isMobile ? "18px" : "24px",
       backdropFilter: "blur(12px)",
       boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
     },
 
     sectionTitle: {
-      fontSize: "24px",
+      fontSize: isMobile ? "18px" : isTablet ? "20px" : "24px",
       fontWeight: "700",
       marginBottom: "20px",
     },
@@ -214,37 +227,39 @@ function RawStockPage() {
 
     th: {
       textAlign: "left",
-      padding: "16px",
+      padding: isMobile ? "12px 8px" : "16px",
       color: "rgba(255,255,255,0.5)",
       borderBottom: "1px solid rgba(255,255,255,0.08)",
-      fontSize: "13px",
+      fontSize: isMobile ? "11px" : "13px",
+      fontWeight: "600",
     },
 
     td: {
-      padding: "16px",
+      padding: isMobile ? "12px 8px" : "16px",
       borderBottom: "1px solid rgba(255,255,255,0.05)",
-      fontSize: "14px",
+      fontSize: isMobile ? "13px" : "14px",
       verticalAlign: "middle",
     },
 
     actionBtn: {
-      padding: "9px 14px",
+      padding: isMobile ? "6px 8px" : "9px 14px",
       borderRadius: "10px",
       border: "none",
       cursor: "pointer",
       color: "#fff",
       fontWeight: "600",
-      marginRight: "8px",
+      marginRight: isMobile ? "4px" : "8px",
+      fontSize: isMobile ? "11px" : "13px",
     },
 
     qtyBtn: {
-      width: "30px",
-      height: "30px",
+      width: isMobile ? "28px" : "30px",
+      height: isMobile ? "28px" : "30px",
       borderRadius: "8px",
       border: "1px solid rgba(255,255,255,0.12)",
       background: "rgba(255,255,255,0.07)",
       color: "#fff",
-      fontSize: "16px",
+      fontSize: isMobile ? "14px" : "16px",
       fontWeight: "700",
       cursor: "pointer",
       display: "inline-flex",
@@ -254,7 +269,7 @@ function RawStockPage() {
     },
 
     thresholdInput: {
-      width: "72px",
+      width: isMobile ? "60px" : "72px",
       padding: "8px 10px",
       borderRadius: "10px",
       border: "1px solid rgba(255,255,255,0.08)",
@@ -306,7 +321,7 @@ function RawStockPage() {
 
         <div style={styles.grid}>
           {/* LEFT — FORM */}
-          <div style={{ ...styles.card, position: "sticky", top: "40px" }}>
+          <div style={{ ...styles.card, position: "static", top: "40px" }}>
             <h2 style={styles.sectionTitle}>➕ Add Item</h2>
 
             <input
@@ -362,10 +377,10 @@ function RawStockPage() {
                 gap: "12px",
               }}
             >
-              <h2 style={{ margin: 0, fontSize: "24px", fontWeight: "700" }}>
+              <h2 style={{ margin: 0, fontSize: isMobile ? "18px" : "24px", fontWeight: "700" }}>
                 🧺 Raw Material Stock
               </h2>
-              <span style={{ color: "rgba(255,255,255,0.5)" }}>
+              <span style={{ color: "rgba(255,255,255,0.5)", fontSize: isMobile ? "12px" : "14px" }}>
                 {items.length} Items
               </span>
             </div>
@@ -397,11 +412,17 @@ function RawStockPage() {
                   <thead>
                     <tr>
                       <th style={styles.th}>Item</th>
-                      <th style={styles.th}>Quantity</th>
-                      <th style={styles.th}>Unit</th>
-                      <th style={styles.th}>Threshold</th>
+                      <th style={styles.th}>Qty</th>
+                      {!isMobile && (
+                        <>
+                          <th style={styles.th}>Unit</th>
+                          <th style={styles.th}>Threshold</th>
+                        </>
+                      )}
                       <th style={styles.th}>Status</th>
-                      <th style={styles.th}>Actions</th>
+                      {!isMobile && (
+                        <th style={styles.th}>Actions</th>
+                      )}
                     </tr>
                   </thead>
 
@@ -426,7 +447,7 @@ function RawStockPage() {
                             style={{
                               display: "flex",
                               alignItems: "center",
-                              gap: "10px",
+                              gap: isMobile ? "6px" : "10px",
                             }}
                           >
                             <button
@@ -440,8 +461,9 @@ function RawStockPage() {
                               style={{
                                 fontWeight: "700",
                                 color: "#22c55e",
-                                minWidth: "32px",
+                                minWidth: isMobile ? "24px" : "32px",
                                 textAlign: "center",
+                                fontSize: isMobile ? "12px" : "14px",
                               }}
                             >
                               {item.stock}
@@ -456,36 +478,56 @@ function RawStockPage() {
                           </div>
                         </td>
 
-                        <td style={styles.td}>{item.unit}</td>
+                        {!isMobile && (
+                          <>
+                            <td style={styles.td}>{item.unit}</td>
 
-                        {/* THRESHOLD */}
-                        <td style={styles.td}>
-                          <input
-                            style={styles.thresholdInput}
-                            type="number"
-                            defaultValue={item.threshold}
-                            onBlur={(e) =>
-                              updateThreshold(item, e.target.value)
-                            }
-                          />
-                        </td>
-
+                            {/* THRESHOLD */}
+                            <td style={styles.td}>
+                              <input
+                                style={styles.thresholdInput}
+                                type="number"
+                                defaultValue={item.threshold}
+                                onBlur={(e) =>
+                                  updateThreshold(item, e.target.value)
+                                }
+                              />
+                            </td>
+                          </>
+                        )}
 
                         <td style={styles.td}>
                           {getStatusBadge(item.stock, item.threshold)}
                         </td>
 
-                        <td style={styles.td}>
-                          <button
-                            style={{
-                              ...styles.actionBtn,
-                              background: "#ef4444",
-                            }}
-                            onClick={() => deleteItem(item._id)}
-                          >
-                            🗑 Delete
-                          </button>
-                        </td>
+                        {!isMobile && (
+                          <td style={styles.td}>
+                            <button
+                              style={{
+                                ...styles.actionBtn,
+                                background: "#ef4444",
+                              }}
+                              onClick={() => deleteItem(item._id)}
+                            >
+                              🗑 Delete
+                            </button>
+                          </td>
+                        )}
+                        {isMobile && (
+                          <td style={styles.td}>
+                            <button
+                              style={{
+                                ...styles.actionBtn,
+                                background: "#ef4444",
+                                padding: "6px 10px",
+                              }}
+                              onClick={() => deleteItem(item._id)}
+                              title="Delete"
+                            >
+                              🗑
+                            </button>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>

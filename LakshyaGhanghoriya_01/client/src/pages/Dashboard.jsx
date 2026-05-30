@@ -11,6 +11,7 @@ function Dashboard() {
   const [favorites, setFavorites] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
   const [newAddress, setNewAddress] =
     useState("");
 
@@ -20,6 +21,14 @@ function Dashboard() {
       price: "",
       description: "",
     });
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     fetchDashboardData();
   }, []);
@@ -215,6 +224,9 @@ function Dashboard() {
     0
   );
 
+  const isMobile = windowWidth < 640;
+  const isTablet = windowWidth >= 640 && windowWidth < 1024;
+
   const styles = {
 
     root: {
@@ -223,7 +235,7 @@ function Dashboard() {
         "radial-gradient(circle at top left, rgba(255,77,45,0.14), transparent 30%), radial-gradient(circle at bottom right, rgba(255,140,0,0.08), transparent 30%), #090909",
       color: "#fff",
       fontFamily: FONT,
-      padding: "35px 20px",
+      padding: isMobile ? "20px 16px" : isTablet ? "30px 20px" : "35px 20px",
     },
 
     container: {
@@ -236,14 +248,14 @@ function Dashboard() {
       justifyContent: "space-between",
       alignItems: "center",
       flexWrap: "wrap",
-      gap: "30px",
-      padding: "45px",
+      gap: isMobile ? "20px" : "30px",
+      padding: isMobile ? "24px 16px" : isTablet ? "32px 24px" : "45px",
       borderRadius: "32px",
       background:
         "linear-gradient(135deg, rgba(255,77,45,0.18), rgba(255,140,0,0.06))",
       border:
         "1px solid rgba(255,255,255,0.08)",
-      marginBottom: "35px",
+      marginBottom: isMobile ? "24px" : "35px",
       backdropFilter: "blur(18px)",
       boxShadow:
         "0 20px 60px rgba(0,0,0,0.35)",
@@ -255,7 +267,7 @@ function Dashboard() {
     },
 
     heroTitle: {
-      fontSize: "60px",
+      fontSize: isMobile ? "32px" : isTablet ? "44px" : "60px",
       lineHeight: "1.1",
       fontWeight: "900",
       marginBottom: "18px",
@@ -271,7 +283,7 @@ function Dashboard() {
       lineHeight: "1.9",
       maxWidth: "650px",
       marginBottom: "24px",
-      fontSize: "15px",
+      fontSize: isMobile ? "13px" : "15px",
     },
 
     heroButtons: {
@@ -313,40 +325,39 @@ function Dashboard() {
 
     heroRight: {
       display: "grid",
-      gridTemplateColumns:
-        "repeat(2, minmax(150px,1fr))",
-      gap: "18px",
+      gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(2, minmax(150px,1fr))",
+      gap: isMobile ? "12px" : "18px",
     },
 
     miniCard: {
-      padding: "22px",
+      padding: isMobile ? "16px" : "22px",
       borderRadius: "24px",
       background:
         "rgba(255,255,255,0.05)",
       border:
         "1px solid rgba(255,255,255,0.06)",
       textAlign: "center",
-      minWidth: "160px",
+      minWidth: isMobile ? "auto" : "160px",
     },
 
     miniIcon: {
-      fontSize: "38px",
+      fontSize: isMobile ? "28px" : "38px",
       marginBottom: "10px",
     },
 
     miniValue: {
-      fontSize: "28px",
+      fontSize: isMobile ? "20px" : "28px",
       fontWeight: "900",
       marginBottom: "5px",
     },
 
     miniLabel: {
-      fontSize: "13px",
+      fontSize: isMobile ? "11px" : "13px",
       color: "rgba(255,255,255,0.55)",
     },
 
     section: {
-      marginTop: "45px",
+      marginTop: isMobile ? "30px" : "45px",
     },
 
     sectionHeader: {
@@ -359,7 +370,7 @@ function Dashboard() {
     },
 
     sectionTitle: {
-      fontSize: "32px",
+      fontSize: isMobile ? "22px" : isTablet ? "28px" : "32px",
       fontWeight: "800",
       margin: 0,
       fontFamily: "'Syne', sans-serif",
@@ -379,13 +390,12 @@ function Dashboard() {
 
     grid: {
       display: "grid",
-      gridTemplateColumns:
-        "repeat(auto-fit,minmax(300px,1fr))",
-      gap: "24px",
+      gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit,minmax(300px,1fr))",
+      gap: isMobile ? "16px" : "24px",
     },
 
     card: {
-      padding: "28px",
+      padding: isMobile ? "18px" : isTablet ? "22px" : "28px",
       borderRadius: "26px",
       background:
         "rgba(255,255,255,0.04)",
@@ -395,7 +405,7 @@ function Dashboard() {
     },
 
     cardTitle: {
-      fontSize: "22px",
+      fontSize: isMobile ? "16px" : isTablet ? "19px" : "22px",
       fontWeight: "800",
       marginBottom: "18px",
     },
@@ -404,7 +414,7 @@ function Dashboard() {
       color: "rgba(255,255,255,0.68)",
       marginBottom: "10px",
       lineHeight: "1.8",
-      fontSize: "14px",
+      fontSize: isMobile ? "13px" : "14px",
     },
 
     status: {
@@ -421,13 +431,12 @@ function Dashboard() {
 
     featureGrid: {
       display: "grid",
-      gridTemplateColumns:
-        "repeat(auto-fit,minmax(240px,1fr))",
-      gap: "22px",
+      gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(auto-fit,minmax(240px,1fr))",
+      gap: isMobile ? "12px" : "22px",
     },
 
     featureCard: {
-      padding: "26px",
+      padding: isMobile ? "16px" : "26px",
       borderRadius: "24px",
       background:
         "rgba(255,255,255,0.04)",
@@ -437,12 +446,12 @@ function Dashboard() {
     },
 
     featureIcon: {
-      fontSize: "45px",
+      fontSize: isMobile ? "32px" : "45px",
       marginBottom: "15px",
     },
 
     featureTitle: {
-      fontSize: "20px",
+      fontSize: isMobile ? "14px" : "20px",
       fontWeight: "700",
       marginBottom: "10px",
     },
@@ -450,7 +459,7 @@ function Dashboard() {
     featureText: {
       color: "rgba(255,255,255,0.6)",
       lineHeight: "1.7",
-      fontSize: "14px",
+      fontSize: isMobile ? "12px" : "14px",
     },
 
     orderItem: {
@@ -481,7 +490,7 @@ function Dashboard() {
         "rgba(255,255,255,0.05)",
       color: "#fff",
       outline: "none",
-      fontSize: "14px",
+      fontSize: isMobile ? "13px" : "14px",
       boxSizing: "border-box",
     },
 

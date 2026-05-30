@@ -13,6 +13,8 @@ function Inventory() {
   const [loading, setLoading] =
     useState(true);
 
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
+
   const [search, setSearch] =
     useState("");
 
@@ -25,14 +27,22 @@ function Inventory() {
     useState({
       name: "",
       category: "Pizza",
-      
-      
+
+
       image: "",
       description: "",
     });
 
   const [editingId, setEditingId] =
     useState(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     fetchInventory();
@@ -67,8 +77,8 @@ function Inventory() {
     setForm({
       name: "",
       category: "Pizza",
-      
-      
+
+
       image: "",
       description: "",
     });
@@ -119,8 +129,8 @@ function Inventory() {
     setForm({
       name: item.name,
       category: item.category,
-      
-   
+
+
       image: item.image,
       description:
         item.description || "",
@@ -178,16 +188,29 @@ function Inventory() {
         matchesCategory
       );
     });
+ const isMobile = windowWidth < 640;
+  const isTablet = windowWidth >= 640 && windowWidth < 1024;
+const isSmallMobile = windowWidth < 480;
+
+
+
 
   const styles = {
-    page: {
-      minHeight: "100vh",
-      padding: "40px 20px",
-      background:
-        "linear-gradient(135deg,#0b0b0b,#171717)",
-      color: "#fff",
-      fontFamily: FONT,
-    },
+   page: {
+  minHeight: "100vh",
+
+  padding: isSmallMobile
+    ? "15px 12px"
+    : isMobile
+    ? "20px 16px"
+    : isTablet
+    ? "30px 20px"
+    : "40px 20px",
+
+  background: "linear-gradient(135deg,#0b0b0b,#171717)",
+  color: "#fff",
+  fontFamily: FONT,
+},
 
     container: {
       maxWidth: "1350px",
@@ -195,21 +218,26 @@ function Inventory() {
     },
 
     title: {
-      fontSize: "42px",
-      fontWeight: "800",
-      marginBottom: "10px",
+       fontSize: isMobile ? "26px" : isTablet ? "36px" : "42px",
+  fontWeight: "800",
+  marginBottom: "10px",
+  lineHeight: "1.2",
+  wordBreak: "break-word",
     },
 
     subtitle: {
       color: "rgba(255,255,255,0.55)",
-      marginBottom: "35px",
+      marginBottom: isMobile ? "20px" : "35px",
+      fontSize: isMobile ? "13px" : "14px",
     },
 
     grid: {
       display: "grid",
-      gridTemplateColumns:
-        "380px 1fr",
-      gap: "28px",
+    gridTemplateColumns:
+  windowWidth < 1100
+    ? "1fr"
+    : "380px 1fr",
+      gap: isMobile ? "16px" : "28px",
     },
 
     card: {
@@ -218,7 +246,12 @@ function Inventory() {
       border:
         "1px solid rgba(255,255,255,0.08)",
       borderRadius: "24px",
-      padding: "24px",
+      padding:
+  isMobile
+    ? "16px"
+    : isTablet
+    ? "20px"
+    : "24px",
       backdropFilter: "blur(12px)",
       boxShadow:
         "0 10px 30px rgba(0,0,0,0.35)",
@@ -235,7 +268,8 @@ function Inventory() {
       color: "#fff",
       outline: "none",
       marginBottom: "16px",
-      fontSize: "14px",
+      fontSize: isMobile ? "13px" : "14px",
+      boxSizing: "border-box",
     },
 
     textarea: {
@@ -249,8 +283,10 @@ function Inventory() {
       color: "#fff",
       outline: "none",
       marginBottom: "16px",
-      minHeight: "100px",
+      minHeight: isMobile ? "80px" : "100px",
       resize: "none",
+      fontSize: isMobile ? "13px" : "14px",
+      boxSizing: "border-box",
     },
 
     button: {
@@ -273,29 +309,31 @@ function Inventory() {
 
     th: {
       textAlign: "left",
-      padding: "16px",
+      padding: isMobile ? "12px 8px" : "16px",
       color:
         "rgba(255,255,255,0.5)",
       borderBottom:
         "1px solid rgba(255,255,255,0.08)",
-      fontSize: "13px",
+      fontSize: isMobile ? "11px" : "13px",
+      fontWeight: "600",
     },
 
     td: {
-      padding: "16px",
+      padding: isMobile ? "12px 8px" : "16px",
       borderBottom:
         "1px solid rgba(255,255,255,0.05)",
-      fontSize: "14px",
+      fontSize: isMobile ? "13px" : "14px",
     },
 
     actionBtn: {
-      padding: "8px 14px",
+      padding: isMobile ? "6px 8px" : "8px 14px",
       borderRadius: "10px",
       border: "none",
       cursor: "pointer",
       color: "#fff",
       fontWeight: "600",
-      marginRight: "8px",
+      marginRight: isMobile ? "4px" : "8px",
+      fontSize: isMobile ? "11px" : "13px",
     },
 
     rowHover: {
@@ -304,6 +342,7 @@ function Inventory() {
     },
   };
 
+ 
   return (
     <div style={styles.page}>
       <div style={styles.container}>
@@ -322,7 +361,11 @@ function Inventory() {
 
           {/* FORM */}
 
-          <div style={styles.card}>
+          <div style={{
+            ...styles.card,
+            position: isTablet || isMobile ? "static" : "static",
+            top: "30px",
+          }}>
 
             <h2
               style={{
@@ -465,7 +508,7 @@ function Inventory() {
                 ))}
               </select>
 
-              
+
 
               <div
                 style={{
@@ -487,7 +530,7 @@ function Inventory() {
                     alt="preview"
                     style={{
                       width: "100%",
-                      height: "180px",
+                      height: isMobile ? "140px" : "180px",
                       objectFit: "cover",
                       borderRadius: "16px",
                       marginTop: "12px",
@@ -538,7 +581,7 @@ function Inventory() {
                   margin: 0,
                 }}
               >
-              Tranding Items
+                Tranding Items
               </h2>
 
               <span
@@ -559,9 +602,9 @@ function Inventory() {
             <div
               style={{
                 display: "flex",
+                flexDirection: isMobile ? "column" : "row",
                 gap: "14px",
                 marginBottom: "22px",
-                flexWrap: "wrap",
               }}
             >
               <input
@@ -589,7 +632,7 @@ function Inventory() {
                   ...styles.input,
 
                   marginBottom: 0,
-                  width: "240px",
+                  width: isMobile ? "100%" : "240px",
 
                   appearance: "none",
                   WebkitAppearance: "none",
@@ -680,6 +723,7 @@ function Inventory() {
               <div
                 style={{
                   overflowX: "auto",
+                  WebkitOverflowScrolling: "touch",
                 }}
               >
                 <table
@@ -699,21 +743,28 @@ function Inventory() {
                         Name
                       </th>
 
-                      <th
-                        style={styles.th}
-                      >
-                        Category
-                      </th>
+                      {!isMobile && (
+                        <th
+                          style={styles.th}
+                        >
+                          Category
+                        </th>
+                      )}
 
-                     
-
-                     
-
-                      <th
-                        style={styles.th}
-                      >
-                        Actions
-                      </th>
+                      {!isMobile && (
+                        <th
+                          style={styles.th}
+                        >
+                          Actions
+                        </th>
+                      )}
+                      {isMobile && (
+                        <th
+                          style={styles.th}
+                        >
+                          Acts
+                        </th>
+                      )}
                     </tr>
                   </thead>
 
@@ -742,88 +793,68 @@ function Inventory() {
                           }}
                         >
                           <td
-                            style={
-                              styles.td
-                            }
+                            style={styles.td}
                           >
                             <img
-                              src={
-                                item.image
-                              }
+                              src={item.image}
                               alt=""
                               style={{
-                                width:
-                                  "70px",
-                                height:
-                                  "70px",
-                                borderRadius:
-                                  "14px",
-                                objectFit:
-                                  "cover",
+                                width: isMobile ? "45px" : "70px",
+                                height: isMobile ? "45px" : "70px",
+                                borderRadius: "12px",
+                                objectFit: "cover",
+                                display: "block",
                               }}
                             />
                           </td>
 
                           <td
-                            style={
-                              styles.td
-                            }
+                            style={styles.td}
                           >
-                            {
-                              item.name
-                            }
+                            {item.name}
                           </td>
 
-                          <td
-                            style={
-                              styles.td
-                            }
-                          >
-                            {
-                              item.category
-                            }
-                          </td>
-
-                         
-
-                         
+                          {!isMobile && (
+                            <td
+                              style={styles.td}
+                            >
+                              {item.category}
+                            </td>
+                          )}
 
                           <td
-                            style={
-                              styles.td
-                            }
+                            style={styles.td}
                           >
+                            <button
+                              style={{
+                                ...styles.actionBtn,
+                                background: "#3b82f6",
+                                display: "block",
+                                width: isMobile ? "100%" : "90px",
+                                marginBottom: isMobile ? "6px" : "10px",
+                              }}
+                              onClick={() =>
+                                handleEdit(item)
+                              }
+                            >
+                              {isMobile ? "✏️" : "Edit"}
+                            </button>
+
+                            {!isMobile }
 
                             <button
                               style={{
                                 ...styles.actionBtn,
-                                background:
-                                  "#3b82f6",
+                                background: "#ef4444",
+                                display: "block",
+                                width: isMobile ? "100%" : "90px",
                               }}
                               onClick={() =>
-                                handleEdit(
-                                  item
-                                )
+                                handleDelete(item._id)
                               }
                             >
-                              Edit
+                              {isMobile ? "🗑️" : "Delete"}
                             </button>
-
-                            <button
-                              style={{
-                                ...styles.actionBtn,
-                                background:
-                                  "#ef4444",
-                              }}
-                              onClick={() =>
-                                handleDelete(
-                                  item._id
-                                )
-                              }
-                            >
-                              Delete
-                            </button>
-
                           </td>
                         </tr>
                       )

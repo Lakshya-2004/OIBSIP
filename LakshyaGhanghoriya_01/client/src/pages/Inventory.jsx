@@ -24,6 +24,16 @@ function Inventory() {
   const [editingId, setEditingId] =
     useState(null);
 
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     fetchInventory();
   }, []);
@@ -229,10 +239,13 @@ function Inventory() {
     "Dip",
   ];
 
+  const isMobile = windowWidth < 640;
+  const isTablet = windowWidth >= 640 && windowWidth < 1024;
+
   const styles = {
     page: {
       minHeight: "100vh",
-      padding: "40px 20px",
+      padding: isMobile ? "20px 16px" : isTablet ? "30px 20px" : "40px 20px",
       background:
         "linear-gradient(135deg,#0b0b0b,#171717)",
       color: "#fff",
@@ -245,22 +258,22 @@ function Inventory() {
     },
 
     title: {
-      fontSize: "42px",
+      fontSize: isMobile ? "28px" : isTablet ? "36px" : "42px",
       fontWeight: "800",
       marginBottom: "10px",
     },
 
     subtitle: {
       color: "rgba(255,255,255,0.6)",
-      marginBottom: "35px",
+      marginBottom: isMobile ? "20px" : "35px",
       lineHeight: "1.6",
+      fontSize: isMobile ? "14px" : "15px",
     },
 
     grid: {
       display: "grid",
-      gridTemplateColumns:
-        "380px 1fr",
-      gap: "28px",
+      gridTemplateColumns: isMobile ? "1fr" : isTablet ? "1fr" : "380px 1fr",
+      gap: isMobile ? "16px" : "28px",
     },
 
     card: {
@@ -269,14 +282,14 @@ function Inventory() {
       border:
         "1px solid rgba(255,255,255,0.08)",
       borderRadius: "24px",
-      padding: "24px",
+      padding: isMobile ? "18px" : "24px",
       backdropFilter: "blur(12px)",
       boxShadow:
         "0 10px 30px rgba(0,0,0,0.35)",
     },
 
     sectionTitle: {
-      fontSize: "24px",
+      fontSize: isMobile ? "18px" : isTablet ? "20px" : "24px",
       fontWeight: "700",
       marginBottom: "20px",
     },
@@ -293,6 +306,7 @@ function Inventory() {
       outline: "none",
       marginBottom: "16px",
       fontSize: "14px",
+      boxSizing: "border-box",
     },
 
     textarea: {
@@ -308,6 +322,7 @@ function Inventory() {
       marginBottom: "16px",
       minHeight: "100px",
       resize: "none",
+      boxSizing: "border-box",
     },
 
     button: {
@@ -344,29 +359,31 @@ function Inventory() {
 
     th: {
       textAlign: "left",
-      padding: "16px",
+      padding: isMobile ? "12px 8px" : "16px",
       color:
         "rgba(255,255,255,0.5)",
       borderBottom:
         "1px solid rgba(255,255,255,0.08)",
-      fontSize: "13px",
+      fontSize: isMobile ? "11px" : "13px",
+      fontWeight: "600",
     },
 
     td: {
-      padding: "16px",
+      padding: isMobile ? "12px 8px" : "16px",
       borderBottom:
         "1px solid rgba(255,255,255,0.05)",
-      fontSize: "14px",
+      fontSize: isMobile ? "13px" : "14px",
     },
 
     actionBtn: {
-      padding: "9px 14px",
+      padding: isMobile ? "6px 8px" : "9px 14px",
       borderRadius: "10px",
       border: "none",
       cursor: "pointer",
       color: "#fff",
       fontWeight: "600",
-      marginRight: "8px",
+      marginRight: isMobile ? "4px" : "8px",
+      fontSize: isMobile ? "11px" : "13px",
     },
 
     row: {
@@ -467,7 +484,7 @@ function Inventory() {
                   alt="preview"
                   style={{
                     width: "100%",
-                    height: "180px",
+                    height: isMobile ? "140px" : "180px",
                     objectFit: "cover",
                     borderRadius: "16px",
                     marginBottom: "16px",
@@ -545,6 +562,7 @@ function Inventory() {
                 gap: "14px",
                 marginBottom: "24px",
                 flexWrap: "wrap",
+                flexDirection: isMobile ? "column" : "row",
               }}
             >
               <input
@@ -559,51 +577,95 @@ function Inventory() {
                 style={{
                   ...styles.input,
                   marginBottom: 0,
-                  flex: 1,
+                  flex: isMobile ? "none" : 1,
                 }}
               />
 
-              <select
-                value={filterCategory}
-                onChange={(e) =>
-                  setFilterCategory(
-                    e.target.value
-                  )
-                }
-                style={{
-                  ...styles.input,
-                  marginBottom: 0,
-                  width: "220px",
-                }}
-              >
-                <option
-                  value="All"
+              {!isMobile && (
+                <select
+                  value={filterCategory}
+                  onChange={(e) =>
+                    setFilterCategory(
+                      e.target.value
+                    )
+                  }
                   style={{
-                    background: "#111",
+                    ...styles.input,
+                    marginBottom: 0,
+                    width: "220px",
                   }}
                 >
-                  All Categories
-                </option>
-
-                {[
-                  ...new Set(
-                    inventory.map(
-                      (item) =>
-                        item.category
-                    )
-                  ),
-                ].map((cat) => (
                   <option
-                    key={cat}
-                    value={cat}
+                    value="All"
                     style={{
                       background: "#111",
                     }}
                   >
-                    {cat}
+                    All Categories
                   </option>
-                ))}
-              </select>
+
+                  {[
+                    ...new Set(
+                      inventory.map(
+                        (item) =>
+                          item.category
+                      )
+                    ),
+                  ].map((cat) => (
+                    <option
+                      key={cat}
+                      value={cat}
+                      style={{
+                        background: "#111",
+                      }}
+                    >
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              )}
+              {isMobile && (
+                <select
+                  value={filterCategory}
+                  onChange={(e) =>
+                    setFilterCategory(
+                      e.target.value
+                    )
+                  }
+                  style={{
+                    ...styles.input,
+                    marginBottom: 0,
+                  }}
+                >
+                  <option
+                    value="All"
+                    style={{
+                      background: "#111",
+                    }}
+                  >
+                    All Categories
+                  </option>
+
+                  {[
+                    ...new Set(
+                      inventory.map(
+                        (item) =>
+                          item.category
+                      )
+                    ),
+                  ].map((cat) => (
+                    <option
+                      key={cat}
+                      value={cat}
+                      style={{
+                        background: "#111",
+                      }}
+                    >
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
 
             {loading ? (
@@ -627,9 +689,11 @@ function Inventory() {
                         Name
                       </th>
 
-                      <th style={styles.th}>
-                        Category
-                      </th>
+                      {!isMobile && (
+                        <th style={styles.th}>
+                          Category
+                        </th>
+                      )}
 
                       <th style={styles.th}>
                         Price
@@ -639,9 +703,16 @@ function Inventory() {
                         Stock
                       </th>
 
-                      <th style={styles.th}>
-                        Actions
-                      </th>
+                      {!isMobile && (
+                        <th style={styles.th}>
+                          Actions
+                        </th>
+                      )}
+                      {isMobile && (
+                        <th style={styles.th}>
+                          Acts
+                        </th>
+                      )}
                     </tr>
                   </thead>
 
@@ -698,10 +769,8 @@ function Inventory() {
                                   item.name
                                 }
                                 style={{
-                                  width:
-                                    "70px",
-                                  height:
-                                    "70px",
+                                  width: isMobile ? "50px" : "70px",
+                                  height: isMobile ? "50px" : "70px",
                                   objectFit:
                                     "cover",
                                   borderRadius:
@@ -720,15 +789,17 @@ function Inventory() {
                               }
                             </td>
 
-                            <td
-                              style={
-                                styles.td
-                              }
-                            >
-                              {
-                                item.category
-                              }
-                            </td>
+                            {!isMobile && (
+                              <td
+                                style={
+                                  styles.td
+                                }
+                              >
+                                {
+                                  item.category
+                                }
+                              </td>
+                            )}
 
                             <td
                               style={
@@ -781,6 +852,11 @@ function Inventory() {
                                   ...styles.actionBtn,
                                   background:
                                     "#3b82f6",
+                                  display: isMobile ? "block" : "inline-block",
+                                  width: isMobile ? "100%" : "90px",
+                                  marginBottom: isMobile ? "6px" : "10px",
+                                  
+                                
                                 }}
                                 onClick={() =>
                                   handleEdit(
@@ -788,14 +864,19 @@ function Inventory() {
                                   )
                                 }
                               >
-                                Edit
+                                {isMobile ? "✏️" : "Edit"}
+                                
                               </button>
+
+                              {!isMobile && <br />}
 
                               <button
                                 style={{
                                   ...styles.actionBtn,
                                   background:
                                     "#ef4444",
+                                  display: isMobile ? "block" : "inline-block",
+                                  width: isMobile ? "100%" : "90px",
                                 }}
                                 onClick={() =>
                                   handleDelete(
@@ -803,7 +884,7 @@ function Inventory() {
                                   )
                                 }
                               >
-                                Delete
+                                {isMobile ? "🗑️" : "Delete"}
                               </button>
                             </td>
                           </tr>

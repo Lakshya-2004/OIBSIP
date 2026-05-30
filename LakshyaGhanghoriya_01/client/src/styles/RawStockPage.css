@@ -18,6 +18,8 @@
   padding: 32px;
   font-family: 'Segoe UI', sans-serif;
   color: #e0e0e0;
+  display: flex;
+  flex-direction: column;
 }
 
 .raw-stock-container h2 {
@@ -36,22 +38,26 @@
   display: grid;
   grid-template-columns: 360px 1fr;
   gap: 24px;
-  align-items: start;
+  align-items: stretch;
 }
+.raw-stock-layout > * {height: 100%;}
 
 /* ===========================
    FORM CARD  (left column)
 =========================== */
 
+
 .raw-form {
+  height: 100%;
+
   background-color: #1e1e1e;
   border-radius: 14px;
+
   padding: 28px 24px;
+
   display: flex;
   flex-direction: column;
   gap: 14px;
-  position: sticky;
-  top: 32px;
 }
 
 .raw-form input,
@@ -87,6 +93,7 @@
 
 .raw-form button {
   width: 100%;
+
   padding: 14px;
   background: linear-gradient(135deg, #f97316, #ea580c);
   color: #fff;
